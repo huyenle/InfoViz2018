@@ -22,18 +22,18 @@ var yValue = function(d) { return d["uni_per_pop"];}, // data -> value
     yAxis =  d3.axisLeft(yScale);
 
 // setup fill color
-var cValue = function(d) { return d.country;},
-    color =d3.scaleOrdinal(d3.schemeCategory10);
+var cValue = function(d) { return d.country;};
+var colorBubble =d3.scaleOrdinal(d3.schemeCategory10);
 
 
 // add the graph canvas to the body of the webpage
-var svg = d3.select("body").append("svg")
+var bubbles = d3.select("#bubbleChart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
 
 // add the tooltip area to the webpage
-var tooltip = d3.select("body").append("div")
+var tooltip = d3.select("bubbleChart").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -65,7 +65,7 @@ d3.csv("rel_uni_pop.csv", function(error, data) {
 
 
   // x-axis
-  svg.append("g")
+  bubbles.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
@@ -77,7 +77,7 @@ d3.csv("rel_uni_pop.csv", function(error, data) {
       .text("Percentage religious");
 
   // y-axis
-  svg.append("g")
+  bubbles.append("g")
       .attr("class", "y axis")
       .call(yAxis)
     .append("text")
@@ -89,7 +89,7 @@ d3.csv("rel_uni_pop.csv", function(error, data) {
       .text("Number of universities per 100.000 people");
 
   // draw dots
-  svg.selectAll(".dot")
+  bubbles.selectAll(".dot")
       .data(data)
     .enter().append("circle")
       .filter(function(d) { return d.year == 2010 })
@@ -97,7 +97,7 @@ d3.csv("rel_uni_pop.csv", function(error, data) {
       .attr("cx", xMap)
       .attr("cy", yMap)
       .attr('r', function(d) { return scaleRadius(d.year)})
-      .style("fill", function(d) { return color(cValue(d));})
+      .style("fill", function(d,i) { return colorBubble(i);})
       .on("mouseover", function(d) {
           tooltip.transition()
                .duration(200)

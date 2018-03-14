@@ -94,7 +94,7 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 				.y1(function(d) { return yScale(d[1]); });
 
 	//Create SVG element
-	var areaChart = d3.select("body")
+	var areaChart = d3.select("#stackedArea")
 				.append("svg")
 				.attr("width", w)
 				.attr("height", h);

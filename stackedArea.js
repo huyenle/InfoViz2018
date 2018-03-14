@@ -1,11 +1,12 @@
-// I'm hungry..
-var dataset, xScale, yScale, xAxis, yAxis, area, series;
+// I'm always hungry..
+var dataset, xScale, yScale, xAxis, yAxis, area, series, areaGroup;
 var countries;  //Empty, for now
 
+
 // Settings
-var w = 1000;
-var h = 500;
-var p = 50;
+var w = 600;
+var h = 300;
+var p = 20;
 
 var rowConverter = function(d, i, cols) {
 	//Initial 'row' object includes only year
@@ -31,7 +32,7 @@ var stack = d3.stack();
 
 //Load in data
 d3.csv("data/Uni_data.csv", rowConverter, function(data) {
-	dataset = data;
+	dataset = data.slice(413,513); // SLICE HERE TO SEE FEWER YEAR
     //console.log(dataset);	
      
 	//Now that we know the column names in the data…
@@ -93,13 +94,13 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 				.y1(function(d) { return yScale(d[1]); });
 
 	//Create SVG element
-	var svg = d3.select("body")
+	var areaChart = d3.select("body")
 				.append("svg")
 				.attr("width", w)
 				.attr("height", h);
 
 	//Create areas
-	svg.selectAll("path")
+	areaGroup = areaChart.selectAll("path")
 		.data(series)
 		.enter()
 		.append("path")
@@ -108,26 +109,41 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 		.attr("fill", function(d, i) {
 			return colorScale(i);
 		})
-		.style("opacity", 0.6) // decrease opacity
-		.on('mouseover', function(d){// increase opacity when move the mouse
-			d3.select(this).style("opacity", 1.2)
-		})
-		.on('mouseout', function(d){//the opacity turns back when mouse's out
-			d3.select(this).style("opacity", 0.6)
-		})
-		.append("title")  //Make tooltip
-		.text(function(d) {
-			return d.key;
-		});
+		.on('mouseover', function(d){
+			activeCountry = d.key;
+			//console.log(activeCountry);
+			d3.select(this).classed("areaLight", true);
 
+			mouse = d3.mouse(areaChart.node()).map( function(d) { return parseInt(d); } );
+			tooltip.classed("hidden", false)
+				.attr("style", "left:"+(mouse[0]+100)+"px;top:"+(mouse[1]+2*h)+"px")
+				.html(activeCountry);
+
+			//update the map
+			d3.selectAll(".country")
+				.classed("country-on", function(d){
+					if(d.properties.name == activeCountry) return true;
+					else return false;
+				})
+		}) // Finish .on mouseover
+
+		.on('mouseout', function(d){
+			d3.select(this).classed("areaLight", false);
+			tooltip.classed("hidden", true);
+			
+			// turn back the map
+			d3.selectAll(".country-on")
+				.attr("class", "country");	
+		}) // Finish .on mouseout
+		;
 
 	//Create axes
-	svg.append("g")
+	areaChart.append("g")
 		.attr("class", "axis")
 		.attr("transform", "translate(0," + (h - p) + ")")
 		.call(xAxis);
 
-	svg.append("g")
+	areaChart.append("g")
 		.attr("class", "axis")
 		.attr("transform", "translate(" + (w - p * 2) + ",0)")
 		.call(yAxis);

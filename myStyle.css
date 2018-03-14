@@ -1,0 +1,40 @@
+body {
+    padding: 30px;
+}
+
+input[type=range]{
+    /* fix for FF unable to apply focus style bug  */
+    border: 0px solid white; 
+
+    /*required for proper track sizing in FF*/
+    width: 1000px;
+}
+
+input[type=range]::-moz-range-track {
+    width: 1000px;
+    height: 10px;
+    background: #ddd;
+    border: none;
+    border-radius: 7px;
+}
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 60%;
+    background: goldenrod;
+}
+
+/*hide the outline behind the border*/
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+input[type=range]:focus::-moz-range-track {
+    background: #ccc;
+}
+
+/* World map style */
+

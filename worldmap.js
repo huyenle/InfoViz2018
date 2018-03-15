@@ -7,8 +7,8 @@ var mouse;
 // Define size of map group
 // Full world map is 2:1 ratio
 // Using 12:5 because we will crop top and bottom of map
-w = 700;
-h = 500;
+w = $("#map-holder").width();
+h= $("#map-holder").height();
 var time=2017;
 var minZoom;
 var maxZoom;
@@ -39,7 +39,8 @@ var svg = d3
       .append("svg")
       // set to the same size as the "map-holder" div
       .attr("width", $("#map-holder").width())
-      .attr("height", $("#map-holder").height())
+	  .attr("height", $("#map-holder").height())
+	  .style("border", "1px solid black")
 ;
 
 var result = [];
@@ -99,8 +100,8 @@ if (error) throw error;
 	   .append("rect")
 	   .attr("x", 0)
 	   .attr("y", 0)
-	   .attr("width", w)
-	   .attr("height", h)
+	   .attr("width", $("#map-holder").width())
+	   .attr("height", $("#map-holder").height())
 	   .on("click", reset)
 	   .on("mouseover", )
 	;
@@ -164,7 +165,7 @@ if (error) throw error;
 			
 			
 	var personattr = persons
-					.attr("r", 2)
+					.attr("r", 0.8)
 					.attr("transform", function(d) {return "translate(" + projection([d.longitude, d.latitude]) + ")";})
 					.style("fill",function(d){if (time>d.birth_year) {return "goldenrod"} else {return "none"}})
 					.style("opacity",0.6);	

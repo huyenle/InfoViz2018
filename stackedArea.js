@@ -1,11 +1,11 @@
 // I'm always hungry..
-var dataset, xScale, yScale, xAxis, yAxis, area, series, areaGroup;
+var dataset, xScaleA, yScaleA, xAxisA, yAxisA, area, series, areaGroup;
 var countries;  //Empty, for now
 
 
 // Settings
-var w = 600;
-var h = 300;
+var w = $("#stackedArea").width();
+var h= $("#stackedArea").height();
 var p = 20;
 
 var rowConverter = function(d, i, cols) {
@@ -54,12 +54,12 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 // CHART ...
 
 	//Create scale functions
-    xScale = d3.scaleLinear()
+    xScaleA = d3.scaleLinear()
                 .domain([d3.min(dataset, function(d) { return d.year;}),
                         d3.max(dataset, function(d) { return d.year;})])
 				.range([p, w - p * 2]);
 
-	yScale = d3.scaleLinear()
+	yScaleA = d3.scaleLinear()
 					.domain([
 						0,
 						d3.max(dataset, function(d) {
@@ -77,24 +77,24 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 								.nice();
 
 	//Define axes
-	xAxis = d3.axisBottom()
-			   .scale(xScale)
+	xAxisA = d3.axisBottom()
+			   .scale(xScaleA)
 			   .ticks(10)
 			   .tickFormat(d3.format(".0f"));
 
 	//Define Y axis
-	yAxis = d3.axisRight()
-			   .scale(yScale)
+	yAxisA = d3.axisRight()
+			   .scale(yScaleA)
 			   .ticks(10);
 
 	//Define area generator
 	area = d3.area()
-				.x(function(d) { return xScale(d.data.year); })
-				.y0(function(d) { return yScale(d[0]); })
-				.y1(function(d) { return yScale(d[1]); });
+				.x(function(d) { return xScaleA(d.data.year); })
+				.y0(function(d) { return yScaleA(d[0]); })
+				.y1(function(d) { return yScaleA(d[1]); });
 
 	//Create SVG element
-	var areaChart = d3.select("body")
+	var areaChart = d3.select("#stackedArea")
 				.append("svg")
 				.attr("width", w)
 				.attr("height", h);
@@ -141,12 +141,12 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 	areaChart.append("g")
 		.attr("class", "axis")
 		.attr("transform", "translate(0," + (h - p) + ")")
-		.call(xAxis);
+		.call(xAxisA);
 
 	areaChart.append("g")
 		.attr("class", "axis")
 		.attr("transform", "translate(" + (w - p * 2) + ",0)")
-		.call(yAxis);
+		.call(yAxisA);
 		
 // Finally...
 });

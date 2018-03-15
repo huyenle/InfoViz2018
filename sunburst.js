@@ -1,162 +1,320 @@
 // data
-var nodeData = {"name": "Historial Figures", "children": [
-          {"name": "Figures in Religion", "children": [{
+var nodeData = {"name": "World", "children": [{
             "name": "Africa", "children": [
-              {"name": "Egypt", "size": 11},
-              {"name": "Lybia", "size": 2},
-              {"name": "Tunisia", "size": 1},
-              {"name": "Algeria", "size": 1},
-              {"name": "Sudan", "size": 1},
-              {"name": "South Africa", "size": 1}]
-        }, {
-            "name": "Europe", "children": [
-              {"name": "Austria", "size": 1},
-              {"name": "Belgium", "size": 1},
-              {"name": "Croatia", "size": 4},
-              {"name": "Czech Republic", "size": 3},
-              {"name": "Estonia", "size": 1},
-              {"name": "France", "size": 30},
-              {"name": "Germany", "size": 12},
-              {"name": "Greece", "size": 7},
-              {"name": "Hungary", "size": 1},
-              {"name": "Ireland", "size": 2},
-              {"name": "Italy", "size": 230},
-              {"name": "Montenegro", "size": 1},
-              {"name": "Netherlands", "size": 1},
-              {"name": "Norway", "size": 1},
-              {"name": "Poland", "size": 4},
-              {"name": "Portugal", "size": 2},
-              {"name": "Romania", "size": 1},
-              {"name": "Slovakia", "size": 1},
-              {"name": "Spain", "size": 12},
-              {"name": "Sweden", "size": 3},
-              {"name": "Switzerland", "size": 2},
-              {"name": "United Kingdom", "size": 12}]
-        }, {
-            "name": "Asia", "children": [
-              {"name": "Armenia", "size": 1},
-              {"name": "China", "size": 2},
-              {"name": "Cyprus", "size": 1},
-              {"name": "India", "size": 4},
-              {"name": "Iran", "size": 8},
-              {"name": "Iraq", "size": 7},
-              {"name": "Israel", "size": 33},
-              {"name": "Jordan", "size": 2},
-              {"name": "North Korea", "size": 1},
-              {"name": "Pakistan", "size": 1},
-              {"name": "Palestine", "size": 11},
-              {"name": "Saudi Arabia", "size": 11},
-              {"name": "Syria", "size": 7},
-              {"name": "Timor-Leste", "size": 1},
-              {"name": "Turkey", "size": 20},
-              {"name": "Uzbekistan", "size": 1},
-              {"name": "Yemen", "size": 2}]
-        }, {
-            "name": "North America", "children": [
-              {"name": "United States", "size": 4}]
-        }, {
-            "name": "South America", "children": [
-              {"name": "El Salvador", "size": 1},
-              {"name": "Peru", "size": 2}]
-        }, {
-            "name": "Unknown", "children": [
-              {"name": "Others", "size": 49}]
-        }
-      ]
-    },
+              {"name": "Egypt", "children": [
+                {"name": "religion", "size": 11},
+                {"name": "science" , "size": 12}
+                ]},
+              {"name": "Kenya", "children": [
+                  {"name": "science", "size": 2}
+                  ]},
+              {"name": "Lybia", "children": [
+                {"name": "religion", "size": 2},
+                {"name": "science", "size": 1}
+                ]},
+              {"name": "Malawi", "children": [
+                  {"name": "science", "size":2}
+                  ]},
+              {"name": "Morocco", "children": [
+                  {"name": "science", "size" : 1}
+                  ]},
+              {"name": "Saudi Arabia", "children": [
+                      {"name": "religion", "size" : 1}
+                      ]},
+              {"name": "Algeria", "children": [
+                {"name": "religion", "size": 1},
+                {"name":"science", "size" : 1}
+                ]},
+              {"name": "Sudan", "children": [
+                      {"name": "religion", "size" : 1}
+                      ]},
+              {"name": "South Africa", "children": [
+                {"name": "religion", "size": 1},
+                {"name": "science", "size" : 4}
+              ]},
+              {"name": "Tunisia", "children": [
+                      {"name": "religion", "size" : 1}
+                      ]}
+                    ]}, // end of Africa and Middle East
 
-    {"name": "Figures in Science", "children": [{
-      "name": "Africa", "children": [
-        {"name": "Egypt", "size": 12},
-        {"name": "Lybia", "size": 1},
-        {"name": "Malawi", "size": 2},
-        {"name": "Morocco", "size": 1},
-        {"name": "Algeria", "size": 1},
-        {"name": "Kenya", "size": 2},
-        {"name": "South Africa", "size": 4}]},
-      {"name": "Asia", "children": [
-          {"name": "Afghanistan", "size": 1},
-          {"name": "Azerbaijan", "size": 1},
-          {"name": "Bangladesh", "size": 1},
-          {"name": "China", "size": 11},
-          {"name": "Cyprus", "size": 1},
-          {"name": "Georgia", "size": 1},
-          {"name": "Cyprus", "size": 1},
-          {"name": "India", "size": 13},
-          {"name": "Indonesia", "size": 1},
-          {"name": "Iran", "size": 8},
-          {"name": "Iraq", "size": 1},
-          {"name": "Israel", "size": 4},
-          {"name": "Japan", "size": 16},
-          {"name": "Pakistan", "size": 2},
-          {"name": "Saudi Arabia", "size": 2},
-          {"name": "South Korea", "size": 2},
-          {"name": "Sri Lanka", "size": 1},
-          {"name": "Taiwan", "size": 1},
-          {"name": "Turkey", "size": 16},
-          {"name": "Vietnam", "size": 1}
-        ]},
-      {"name": "Europe", "children": [
-          {"name": "Austria", "size": 23},
-          {"name": "Belarus", "size": 3},
-          {"name": "Belgium", "size": 14},
-          {"name": "Bosnia and Herzegovina", "size": 1},
-          {"name": "Bulgaria", "size": 1},
-          {"name": "Croatia", "size": 5},
-          {"name": "Czech Republic", "size": 11},
-          {"name": "Denmark", "size": 16},
-          {"name": "Estonia", "size": 2},
-          {"name": "Finland", "size": 6},
-          {"name": "France", "size": 135},
-          {"name": "Germany", "size": 165},
-          {"name": "Greech", "size": 3},
-          {"name": "Hungary", "size": 17},
-          {"name": "Ireland", "size": 6},
-          {"name": "Italy", "size": 47},
-          {"name": "Latvia", "size": 1},
-          {"name": "Lithuania", "size": 4},
-          {"name": "Luxembourg", "size": 2},
-          {"name": "Moldova", "size": 1},
-          {"name": "Netherlands", "size": 29},
-          {"name": "Norway", "size": 12},
-          {"name": "Poland", "size": 44},
-          {"name": "Portugal", "size": 2},
-          {"name": "Romania", "size": 4},
-          {"name": "Russia", "size": 52},
-          {"name": "Slovakia", "size": 1},
-          {"name": "Slovenia", "size": 1},
-          {"name": "Spain", "size": 10},
-          {"name": "Sweden", "size": 22},
-          {"name": "Switzerland", "size": 26},
-          {"name": "Turkey", "size": 1},
-          {"name": "Ukraine", "size": 15},
-          {"name": "United Kingdom", "size": 188}
-        ]},
-        {"name": "North America", "children": [
-            {"name": "Canada", "size": 19},
-            {"name": "Greenland", "size": 1},
-            {"name": "Haiti", "size": 1},
-            {"name": "Mexico", "size": 1},
-            {"name": "Saint Kitts and Nevis", "size": 1},
-            {"name": "Saint Lucia", "size": 1},
-            {"name": "United States", "size": 340}]
-          },
-        {"name": "Oceania", "children": [
-              {"name": "Australia", "size": 13},
-              {"name": "New Zealand", "size": 3}
-          ]},
-        {"name": "South America", "children": [
-                {"name": "Brazil", "size": 3},
-                {"name": "Chile", "size": 1},
-                {"name": "Venezuela", "size": 1},
-                {"name": "Argentina", "size": 2}
-          ]},
-        {"name": "Unknown", "children": [
-                      {"name": "Others", "size": 2}
-          ]}
-    ]
-  }]
-};
+                    {"name": "Europe", "children": [
+                          {"name": "Austria",  "children": [
+                            {"name": "religion", "size": 1},
+                            {"name": "science", "size": 23}
+                            ]},
+                          {"name": "Belarus", "children": [
+                              {"name": "science", "size" : 3}
+                              ]},
+                          {"name": "Belgium", "children": [
+                            {"name": "religion", "size": 1},
+                            {"name": "science", "size": 14}
+                            ]},
+                          {"name": "Bosnia and Herzegovina", "children": [
+                              {"name": "science", "size" : 1}
+                              ]},
+                          {"name": "Bulgaria", "children": [
+                              {"name": "science", "size" : 1}
+                              ]},
+                          {"name": "Croatia", "children": [
+                            {"name": "religion", "size" : 4},
+                            {"name": "science", "size"  : 5}
+                            ]},
+                          {"name": "Czech Republic", "children": [
+                            {"name": "religion", "size" : 3},
+                            {"name": "science", "size" : 11}
+                            ]},
+                          {"name": "Denmark", "children": [
+                              {"name": "science", "size" : 16}
+                              ]},
+                          {"name": "Estonia", "children": [
+                            {"name": "religion", "size": 1},
+                            {"name": "science", "size" : 2}
+                            ]},
+                          {"name": "Finland", "children": [
+                              {"name":"science", "size" : 6}
+                              ]},
+                          {"name": "France", "children": [
+                            {"name":"religion", "size": 30},
+                            {"name":"science", "size" : 135}
+                            ]},
+                          {"name": "Germany", "children": [
+                            {"name":"religion", "size": 12},
+                            {"name":"science", "size" : 165}
+                            ]},
+                          {"name": "Greece", "children": [
+                            {"name":"religion", "size": 7},
+                            {"name":"science", "size" : 3}
+                            ]},
+                          {"name": "Hungary", "children": [
+                            {"name":"religion", "size": 1},
+                            {"name":"science", "size" : 17}
+                            ]},
+                          {"name": "Ireland", "children": [
+                            {"name":"religion", "size": 2},
+                            {"name":"science", "size" : 6}
+                            ]},
+                          {"name": "Italy", "children": [
+                            {"name":"religion", "size": 230},
+                            {"name":"science", "size" : 47}
+                            ]},
+                          {"name": "Latvia", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "Lithuania", "children": [
+                              {"name":"science", "size" : 4}
+                              ]},
+                          {"name": "Luxembourg", "children": [
+                              {"name":"science", "size" : 2}
+                              ]},
+                          {"name": "Moldova", "children": [
+                              {"name":"science" , "size": 1}
+                              ]},
+                          {"name": "Montenegro", "children": [
+                              {"name":"religion", "size" : 1}
+                              ]},
+                          {"name": "Netherlands", "children": [
+                            {"name":"religion", "size": 1},
+                            {"name":"science", "size" : 29}
+                            ]},
+                          {"name": "Norway", "children": [
+                            {"name":"religion", "size": 1},
+                            {"name":"science", "size" : 12}
+                            ]},
+                          {"name": "Poland", "children": [
+                            {"name":"religion", "size": 4},
+                            {"name":"science", "size" : 44}
+                            ]},
+                          {"name": "Portugal", "children": [
+                            {"name":"religion", "size": 2},
+                            {"name":"science", "size" : 2}
+                            ]},
+                          {"name": "Romania", "children": [
+                            {"name":"religion", "size": 1},
+                            {"name":"science", "size" : 4}
+                            ]},
+                          {"name": "Russia", "children": [
+                              {"name":"science", "size" : 52}
+                              ]},
+                          {"name": "Slovakia", "children": [
+                            {"name":"religion", "size": 1},
+                            {"name":"science", "size" : 1}
+                            ]},
+                          {"name": "Slovenia", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "Spain", "children": [
+                            {"name":"religion", "size": 12},
+                            {"name":"science", "size" : 11}
+                            ]},
+                          {"name": "Sweden", "children": [
+                            {"name":"religion", "size": 3},
+                            {"name":"science", "size" : 22}
+                            ]},
+                          {"name": "Switzerland", "children": [
+                            {"name":"religion", "size": 2},
+                            {"name":"science", "size" : 26}
+                            ]},
+                          {"name": "Turkey", "children": [
+                              {"name":"religion", "size": 20},
+                              {"name":"science" , "size": 17}
+                              ]},
+                          {"name": "Ukraine", "children": [
+                              {"name":"science" , "size": 15}
+                              ]},
+                          {"name": "United Kingdom", "children": [
+                              {"name":"religion", "size": 12},
+                              {"name":"science", "size" : 188}
+                              ]}]
+                    }, // end of Europe
+
+                    {
+                        "name": "Asia", "children": [
+                          {"name": "Afghanistan", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "Azerbaijan", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "Armenia", "children": [
+                              {"name":"religion", "size" : 1}
+                              ]},
+                          {"name": "Bangladesh", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "China", "children": [
+                            {"name":"religion", "size": 2},
+                            {"name":"science", "size" : 11}
+                            ]},
+                          {"name": "Cyprus", "children": [
+                            {"name":"religion", "size": 1},
+                            {"name":"science", "size" : 1}
+                            ]},
+                          {"name": "Georgia", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "India", "children": [
+                            {"name":"religion", "size": 4},
+                            {"name":"science", "size" : 13}
+                            ]},
+                          {"name": "Indonesia", "children": [
+                              {"name":"science" , "size": 1}
+                              ]},
+                          {"name": "Iran", "children": [
+                            {"name":"religion", "size": 8},
+                            {"name":"science" , "size": 8}
+                            ]},
+                          {"name": "Iraq",  "children": [
+                            {"name":"religion", "size": 7},
+                            {"name":"science" , "size": 1}
+                            ]},
+                          {"name": "Israel", "children": [
+                            {"name":"religion", "size": 33},
+                            {"name":"science", "size" : 4}
+                            ]},
+                          {"name": "Japan", "children": [
+                              {"name":"science", "size" : 16}
+                              ]},
+                          {"name": "Jordan", "children": [
+                              {"name":"religion", "size" : 2}
+                              ]},
+                          {"name": "North Korea", "children": [
+                              {"name":"religion", "size" : 1}
+                              ]},
+                          {"name": "Pakistan", "children": [
+                            {"name":"religion", "size": 1},
+                            {"name":"science" , "size": 2}
+                            ]},
+                          {"name": "Palestine", "children": [
+                              {"name":"religion" , "size": 11}
+                              ]},
+                          {"name": "Saudi Arabia", "children": [
+                            {"name":"religion", "size": 10},
+                            {"name":"science", "size" : 2}
+                            ]},
+                          {"name": "South Korea", "children": [
+                              {"name":"science", "size" : 2}
+                              ]},
+                          {"name": "Sri Lanka", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "Syria", "children": [
+                              {"name":"religion", "size" : 7}
+                              ]},
+                          {"name": "Taiwan", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "Timor-Leste", "children": [
+                              {"name":"religion" , "size": 1}
+                              ]},
+                          {"name": "Uzbekistan", "children": [
+                              {"name":"religion" , "size": 1}
+                              ]},
+                          {"name": "Vietnam", "children": [
+                              {"name":"science" , "size": 1}
+                              ]},
+                          {"name": "Yemen", "children": [
+                              {"name":"religion", "size" : 2}
+                              ]}
+                            ]}, // end of Asia
+
+                            {"name": "North America", "children": [
+                          {"name": "United States", "children": [
+                            {"name":"religion", "size": 4},
+                            {"name":"science" , "size": 340}
+                            ]},
+                          {"name": "Canada",  "children": [
+                              {"name":"science", "size" : 19}
+                              ]},
+                          {"name": "Greenland", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "Haiti", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "Mexico", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "Saint Kitts and Nevis", "children": [
+                              {"name":"science", "size" : 1}
+                              ]},
+                          {"name": "Saint Lucia", "children": [
+                              {"name":"science", "size" : 1}
+                              ]}
+                            ]}, // end of North America
+
+                      {
+                        "name": "South America", "children": [
+                          {"name": "El Salvador", "children": [
+                              {"name":"religion", "size" : 1}
+                              ]},
+                          {"name": "Peru", "children": [
+                              {"name":"religion", "size" : 1}
+                              ]},
+                          {"name": "Brazil", "children": [
+                              {"name":"science", "size" : 3}
+                              ]},
+                          {"name": "Chile", "children": [
+                              {"name":"science" , "size": 1}
+                              ]},
+                          {"name": "Venezuela", "children": [
+                              {"name":"science" , "size": 1}
+                              ]},
+                          {"name": "Argentina", "children": [
+                              {"name":"science" , "size": 2}
+                              ]}
+                        ]}, // end of South America
+
+                    {"name": "Ocenia", "children": [
+                          {"name": "Australia", "children": [
+                              {"name":"science" , "size": 13}
+                              ]},
+                          {"name": "New Zealand", "children": [
+                              {"name":"science" , "size": 3}
+                              ]}
+                      ]}
+
+
+                  ]};
 
 var width = $("#stackedArea").width();
     height = $("#stackedArea").height();

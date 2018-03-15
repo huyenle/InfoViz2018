@@ -72,6 +72,26 @@
     opacity: 1.0;
 		}
 
+    /*styles added for bubble chart*/
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .dot {
+      stroke: #000;
+    }
+
+    .tooltipBubble {
+      position: absolute;
+      width: 200px;
+      height: 28px;
+      pointer-events: none;
+    }
+
 		div.tooltip {/*style for tooltip*/
 		  color: #222;
 		  background: #fff;
@@ -100,13 +120,14 @@
 		<script type="text/javascript" src = "worldmap.js"></script>
 	</div>
 
-	<!-- <p>Number of universities in the history</p> -->
-
+	<p>Number of universities in the history</p>
   <!-- <div class="container"> -->
-    <div id="stackedArea">
+    <div id="stackedArea", style="float: left">
 			<script type = "text/javascript" src="stackedArea.js"></script>
 	  </div>
-    <div id="bubbleChart" >
+
+    <p style="float: middle"> Amount of universities and percentage religious people</p>
+    <div id="bubbleChart", style="float: middle" >
       <script type = "text/javascript" src="bubblechart.js"></script>
     </div>
 

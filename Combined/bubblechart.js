@@ -1,6 +1,6 @@
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 600 - margin.left - margin.right,
+    height = 340 - margin.top - margin.bottom;
 
 /*
  * value accessor - returns the value to encode for a given data object.
@@ -19,7 +19,7 @@ var xValue = function(d) { return d.religpct;}, // data -> value
 var yValue = function(d) { return d["uni_per_pop"];}, // data -> value
     yScale = d3.scaleLinear().range([height, 0]), // value -> display
     yMap = function(d) { return yScale(yValue(d));}, // data -> display
-    yAxis =  d3.axisLeft(yScale);
+    yAxis =  d3.axisRight(yScale);
 
 // setup fill color
 var cValue = function(d) { return d.country;};
@@ -33,14 +33,14 @@ var bubbles = d3.select("#bubbleChart").append("svg")
 
 
 // add the tooltip area to the webpage
-var tooltip = d3.select("bubbleChart").append("div")
-    .attr("class", "tooltip")
+var tooltipBubble = d3.select("bubbleChart").append("div")
+    .attr("class", "tooltipBubble")
     .style("opacity", 0);
 
 
 
 // load data
-d3.csv("rel_uni_pop.csv", function(error, data) {
+d3.csv("rel_uni_pop_hpi.csv", function(error, data) {
 
   // change string (from CSV) into number format
   data.forEach(function(d) {
@@ -50,6 +50,9 @@ d3.csv("rel_uni_pop.csv", function(error, data) {
     d.nonreligpct = +d.nonreligpct * 100;
     d.religpct = +d.religpct * 100;
     d.uni_per_pop = +d.uni_per_pop;
+    d.popsize = +d.popsize
+    d.HPI_sci = +d.HPI_sci;
+    d.HPI_rel = +d.HPI_rel;
     //console.log(d);
   });
 
@@ -59,8 +62,8 @@ d3.csv("rel_uni_pop.csv", function(error, data) {
 
   // setup size of bubbles
   var scaleRadius = d3.scaleLinear()
-            .domain([d3.min(data, function(d) { return d.year; }),
-                    d3.max(data, function(d) { return d.year; })])
+            .domain([d3.min(data, function(d) { return d.popsize; }),
+                    d3.max(data, function(d) { return d.popsize; })])
             .range([2,10]);
 
 
@@ -72,7 +75,7 @@ d3.csv("rel_uni_pop.csv", function(error, data) {
     .append("text")
       .attr("class", "label")
       .attr("x", width)
-      .attr("y", 30)
+      .attr("y", 100)
       .style("text-anchor", "end")
       .text("Percentage religious");
 
@@ -96,13 +99,13 @@ d3.csv("rel_uni_pop.csv", function(error, data) {
       .attr("class", "dot")
       .attr("cx", xMap)
       .attr("cy", yMap)
-      .attr('r', function(d) { return scaleRadius(d.year)})
+      .attr('r', function(d) { return scaleRadius(d.popsize)})
       .style("fill", function(d,i) { return colorBubble(i);})
       .on("mouseover", function(d) {
-          tooltip.transition()
+          tooltipBubble.transition()
                .duration(200)
                .style("opacity", .9);
-          tooltip.html(d["country"] + " in " + d["year"] + "<br/> (" + xValue(d)
+          tooltipBubble.html(d["country"] + " in " + d["year"] + "<br/> (" + xValue(d)
 	        + "% religious, " + yValue(d) + " universities)")
                .style("left", (d3.event.pageX + 5) + "px")
                .style("top", (d3.event.pageY - 28) + "px");

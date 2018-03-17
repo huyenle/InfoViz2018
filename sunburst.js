@@ -360,31 +360,33 @@ var svg = d3.select("body").append("svg")
         .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); })
 
 
-  function click(d) {
+    function click(d) {
+          svg.transition()
+          .duration(300)
+          .tween("scale", function() {
+                var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+                    yd = d3.interpolate(y.domain(), [d.y0, 1]),
+                    yr = d3.interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
+                return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
+              })
+              .selectAll("path")
+              .attrTween("d", function(d) { return function() { return arc(d); }; });
 
-    activeCountry = d.data.name;
-    console.log(activeCountry);
-    d3.select(this).classed("arcClick", true);
+              activeCountry = d.data.name;
+              console.log(activeCountry);
+              //d3.select(this).classed("arcLight", true);
+              d3.select(this).classed("arcLight", function(d){
+                if (activeCountry == "World") { return false;}
+                else return true;
+              });
+              //update the map
+        			d3.selectAll(".country")
+        				.classed("country-on", function(d){
+        					if(d.properties.name == activeCountry) return true;
+        					else return false;
+        				})
 
-    svg.transition()
-        .duration(750)
-        .tween("scale", function() {
-          var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
-              yd = d3.interpolate(y.domain(), [d.y0, 1]),
-              yr = d3.interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
-          return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
-        })
-        .selectAll("path")
-        .attrTween("d", function(d) { return function() { return arc(d); }; });
-
-      }
-
-      //update the map
-      d3.selectAll(".country")
-        .classed("country-on", function(d){
-          if(d.properties.name == activeCountry) return true;
-          else return false;
-        })
+            }
 
   d3.select(self.frameElement).style("height", height + "px");
 

@@ -354,7 +354,28 @@ var svg = d3.select("body").append("svg")
       .enter().append("path")
         .attr("class", "arc")
         .attr("d", arc)
-        .style("fill", function(d) { return color_arc((d.children ? d : d.parent).data.name); })
+        .style("fill", function(d) {
+        if (d.data.name == "Europe") {
+          return "red";
+        } else if (d.data.name == "Asia") {
+          return "blue";
+        } else if (d.data.name == "North America") {
+          return "green";
+        } else if (d.data.name == "South America") {
+          return "orange";
+        } else if (d.data.name == "Oceania") {
+          return "purple";
+        } else if (d.data.name == "Africa") {
+          return "lightblue";
+        } else if (d.data.name == "World") {
+          return "white";
+        } else if (d.data.name == "science") {
+          return "lightblue";
+        } else if (d.data.name == "religion") {
+          return "yellow";
+        }
+        return color_arc((d.children ? d : d.parent).data.name);
+        })
         .on("click", click)
         .append("title")
         .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); })

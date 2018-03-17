@@ -395,7 +395,7 @@ d3.select("#map").remove();
 			active = d3.select(this).classed("active", true);
 			
 			  var bounds = path.bounds(d);
-			if (d.properties.name==='Russia'){bounds[0][0] = 1200}
+			if (d.properties.name==='Russia'){bounds[0][0] = 1200} else if (d.properties.name==='France'){bounds[0][0] = 1008; bounds[1][1] = 304}
 			dx = bounds[1][0] - bounds[0][0],
 			dy = bounds[1][1] - bounds[0][1],
 			x = (bounds[0][0] + bounds[1][0]) / 2,

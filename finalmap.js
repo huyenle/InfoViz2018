@@ -39,7 +39,7 @@
         .projection(projection)
       ;
 	
-		var svg = d3
+		var svgmap = d3
         .select("#map-holder")
         .append("svg")
         // set to the same size as the "map-holder" div
@@ -47,7 +47,7 @@
         .attr("height", $("#map-holder").height())
 		;
 		
-			countriesaGroup = svg
+			countriesaGroup = svgmap
 			   .append("g")
 			   .attr("id", "map")
 				;
@@ -61,7 +61,7 @@
 			   .attr("height", he)
 			   .on("click", reset)
 			;
-					countriesaGroup = svg
+					countriesaGroup = svgmap
 			   .append("g")
 			   .attr("id", "map")
 				;
@@ -84,7 +84,11 @@
 			}
 			
 		function updatescienc(){
-d3.selectAll("path").remove();
+d3.select("#map").remove();
+					countriesaGroup = svgmap
+			   .append("g")
+			   .attr("id", "map")
+				;
 		d3.queue()
 		.defer(d3.json, "./data/custom.geo.json")
 		.defer(d3.csv, "./data/updated.csv")
@@ -167,8 +171,9 @@ d3.selectAll("path").remove();
 			   .enter()
 			   .append("path")
 			   .attr("d", path)
-			   .style("stroke","white")
-			.style("opacity",0.5)
+				.style("stroke-width","3px")
+			   .style("stroke",function(d){if(d.properties.continent==='Europe'){return 'red'} else if (d.properties.continent==='Asia'){return 'blue'} else if (d.properties.continent==='North America'){return 'green'} else if (d.properties.continent==='South America'){return 'orange'} else if (d.properties.continent==='Africa'){return 'lightblue'} else if (d.properties.continent==='Oceania') {return 'purple'} else {return 'white'}})
+			.style("opacity",0.8)
 			   .attr("id", function(d, i) {
 				  return d.properties.iso_a3;})
 			   .style('fill', function(d) {
@@ -232,7 +237,11 @@ d3.selectAll("path").remove();
 	    }	
 	    }
 		function updaterelig(){
-d3.selectAll("path").remove();
+d3.select("#map").remove();
+					countriesaGroup = svgmap
+			   .append("g")
+			   .attr("id", "map")
+				;
 		d3.queue()
 		.defer(d3.json, "./data/custom.geo.json")
 		.defer(d3.csv, "./data/updated.csv")
@@ -315,8 +324,9 @@ d3.selectAll("path").remove();
 			   .enter()
 			   .append("path")
 			   .attr("d", path)
-			   .style("stroke","white")
-			.style("opacity",0.5)
+				.style("stroke-width","3px")
+			   .style("stroke",function(d){if(d.properties.continent==='Europe'){return 'red'} else if (d.properties.continent==='Asia'){return 'blue'} else if (d.properties.continent==='North America'){return 'green'} else if (d.properties.continent==='South America'){return 'orange'} else if (d.properties.continent==='Africa'){return 'lightblue'} else{return 'purple'}})
+			.style("opacity",0.8)
 			   .attr("id", function(d, i) {
 				  return d.properties.iso_a3;})
 			   .style('fill', function(d) {
@@ -384,13 +394,15 @@ d3.selectAll("path").remove();
 			active.classed("active", false);
 			active = d3.select(this).classed("active", true);
 			
-			  var bounds = path.bounds(d),
+			  var bounds = path.bounds(d);
+			if (d.properties.name==='Russia'){bounds[0][0] = 1200}
 			dx = bounds[1][0] - bounds[0][0],
 			dy = bounds[1][1] - bounds[0][1],
 			x = (bounds[0][0] + bounds[1][0]) / 2,
 			y = (bounds[0][1] + bounds[1][1]) / 2,
-			scale = .9 / Math.max(dx / w, dy / h),
+			scale = .9 / Math.max(dx / wi, dy / he),
 			translate = [wi / 2 - scale * x, he / 2 - scale * y];
+			
 			
 			  countriesaGroup.transition()
 			.duration(750)

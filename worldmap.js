@@ -49,8 +49,8 @@ var result = [];
 // get map data and popularity data 
 
 d3.queue()
-	.defer(d3.json, "custom.geo.json")
-	.defer(d3.csv, "updated.csv")
+	.defer(d3.json, "./data/custom.geo.json")
+	.defer(d3.csv, "./data/updated.csv")
 	//.defer(d3.csv, "religionwithgoodnames") // Load csv
 	.await(ready);
 

@@ -40,7 +40,7 @@ var tooltip = d3.select("bubbleChart").append("div")
 
 
 // load data
-d3.csv("rel_uni_pop.csv", function(error, data) {
+d3.csv("./data/rel_uni_pop.csv", function(error, data) {
 
   // change string (from CSV) into number format
   data.forEach(function(d) {

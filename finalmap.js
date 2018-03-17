@@ -1,9 +1,10 @@
+		
 		// DEFINE VARIABLES
 		// Define size of map group
 		// Full world map is 2:1 ratio
 		// Using 12:5 because we will crop top and bottom of map
-		w = window.innerWidth;
-		h = window.innerHeight;
+		wi = window.innerWidth;
+		he = window.innerHeight;
 		var time=2018;
 		var minZoom;
 		var maxZoom;
@@ -20,16 +21,16 @@
 		d3.select("#Relig").on("input", function() {
 			updaterelig();
 		});
-		// color scale
-		var color=d3.scaleLinear().domain([0,15000]).range([0,255]);
+		// colora scale
+		var colora=d3.scaleLinear().domain([0,15000]).range([0,255]);
 		
 		
 		// Define map projection
 		var projection = d3
         .geoEquirectangular()
         .center([0, 0]) // set centre to further North as we are cropping more off bottom of map
-        .scale([w / (2 * Math.PI)]) // scale to fit group width
-        .translate([w / 2, h / 2]) // ensure centred in group
+        .scale([wi / (2 * Math.PI)]) // scale to fit group width
+        .translate([wi / 2, he / 2]) // ensure centred in group
       ;
 	  
 	     // Define map path
@@ -46,21 +47,21 @@
         .attr("height", $("#map-holder").height())
 		;
 		
-			countriesGroup = svg
+			countriesaGroup = svg
 			   .append("g")
 			   .attr("id", "map")
 				;
 				
 			// add a background rectangle
-			countriesGroup
+			countriesaGroup
 			   .append("rect")
 			   .attr("x", 0)
 			   .attr("y", 0)
-			   .attr("width", w)
-			   .attr("height", h)
+			   .attr("width", wi)
+			   .attr("height", he)
 			   .on("click", reset)
 			;
-					countriesGroup = svg
+					countriesaGroup = svg
 			   .append("g")
 			   .attr("id", "map")
 				;
@@ -85,8 +86,8 @@
 		function updatescienc(){
 d3.selectAll("path").remove();
 		d3.queue()
-		.defer(d3.json, "custom.geo.json")
-		.defer(d3.csv, "updated.csv")
+		.defer(d3.json, "./data/custom.geo.json")
+		.defer(d3.csv, "./data/updated.csv")
 		.await(ready);
 		
 		function ready(error, json, csvdata) { 
@@ -99,9 +100,9 @@ d3.selectAll("path").remove();
 				});
 
 			var dfscience= csvdata.filter(function(d) {if(d.domain==='Science & Technology') {return [d.latitude, d.longitude, d.country, d.state, d.birth_year,d.full_name, d.historical_popularity_index]}});
-			dfscience.forEach(function(dfscience){dfscience.color="blue"})
+			dfscience.forEach(function(dfscience){dfscience.colora="blue"})
 			var dfreligion= csvdata.filter(function(d) {if(d.industry==='Religion') {return [d.latitude, d.longitude, d.country, d.state, d.birth_year,d.full_name, d.historical_popularity_index]}});
-			dfreligion.forEach(function(dfreligion){dfreligion.color="red"})
+			dfreligion.forEach(function(dfreligion){dfreligion.colora="red"})
 			var dfboth= csvdata.filter(function(d) {if(d.industry==='Religion'||d.domain==='Science & Technology') {return [d.latitude, d.longitude, d.country, d.state, d.birth_year,d.full_name, d.historical_popularity_index]}});
 			var pidx={};
 					
@@ -160,7 +161,7 @@ d3.selectAll("path").remove();
 
 			
 			// draw a path for each feature/country
-			countries = countriesGroup
+			countriesa = countriesaGroup
 			   .selectAll("path")
 			   .data(json.features)
 			   .enter()
@@ -185,11 +186,11 @@ d3.selectAll("path").remove();
 	    this.r=pidxreligion[d.properties.iso_a3]**(0.35)/(d.properties.pop_est**0.3)*370000;
 	    } else{this.r=4000}
 	    			}
-				return "rgb(" + color(this.r) +","+ color(0)+", " + color(this.s) + ")";})
+				return "rgb(" + colora(this.r) +","+ colora(0)+", " + colora(this.s) + ")";})
 			   .attr("class", "country")
 				.on("click", clicked)
 			
-			var religipersons = countriesGroup
+			var religipersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfreligion)
 						.enter()
@@ -205,7 +206,7 @@ d3.selectAll("path").remove();
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return "pink"} else {return "none"}})
 							.style("stroke-width","1px");
-			var sciencepersons = countriesGroup
+			var sciencepersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfscience)
 						.enter()
@@ -249,9 +250,9 @@ d3.selectAll("path").remove();
 
 			var df= csvdata.filter(function(d) {return [d.latitude, d.longitude, d.country, d.state, d.birth_year,d.full_name, d.historical_popularity_index]});
 			var dfscience= csvdata.filter(function(d) {if(d.domain==='Science & Technology') {return [d.latitude, d.longitude, d.country, d.state, d.birth_year,d.full_name, d.historical_popularity_index]}});
-			dfscience.forEach(function(dfscience){dfscience.color="blue"})
+			dfscience.forEach(function(dfscience){dfscience.colora="blue"})
 			var dfreligion= csvdata.filter(function(d) {if(d.industry==='Religion') {return [d.latitude, d.longitude, d.country, d.state, d.birth_year,d.full_name, d.historical_popularity_index]}});
-			dfreligion.forEach(function(dfreligion){dfreligion.color="red"})
+			dfreligion.forEach(function(dfreligion){dfreligion.colora="red"})
 			var dfboth= csvdata.filter(function(d) {if(d.industry==='Religion'||d.domain==='Science & Technology') {return [d.latitude, d.longitude, d.country, d.state, d.birth_year,d.full_name, d.historical_popularity_index]}});
 			var pidx={};
 					
@@ -308,7 +309,7 @@ d3.selectAll("path").remove();
 
 
 			// draw a path for each feature/country
-			countries = countriesGroup
+			countriesa = countriesaGroup
 			   .selectAll("path")
 			   .data(json.features)
 			   .enter()
@@ -333,11 +334,11 @@ d3.selectAll("path").remove();
 	    this.r=pidxreligion[d.properties.iso_a3]**(0.35)/(d.properties.pop_est**0.3)*370000;
 	    } else{this.r=4000}
 	    			}
-				return "rgb(" + color(this.r) +","+ color(0)+", " + color(this.s) + ")";})
+				return "rgb(" + colora(this.r) +","+ colora(0)+", " + colora(this.s) + ")";})
 			   .attr("class", "country")
 				.on("click", clicked)
 			
-			var religipersons = countriesGroup
+			var religipersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfreligion)
 						.enter()
@@ -353,7 +354,7 @@ d3.selectAll("path").remove();
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return "pink"} else {return "none"}})
 							.style("stroke-width","1px");
-			var sciencepersons = countriesGroup
+			var sciencepersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfscience)
 						.enter()
@@ -389,9 +390,9 @@ d3.selectAll("path").remove();
 			x = (bounds[0][0] + bounds[1][0]) / 2,
 			y = (bounds[0][1] + bounds[1][1]) / 2,
 			scale = .9 / Math.max(dx / w, dy / h),
-			translate = [w / 2 - scale * x, h / 2 - scale * y];
+			translate = [wi / 2 - scale * x, he / 2 - scale * y];
 			
-			  countriesGroup.transition()
+			  countriesaGroup.transition()
 			.duration(750)
 			.style("stroke-width", 1.5 / scale + "px")
 			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
@@ -404,7 +405,7 @@ d3.selectAll("path").remove();
 		active.classed("active", false);
 		active = d3.select(null);
 		
-		countriesGroup.transition()
+		countriesaGroup.transition()
 		.duration(750)
 		.style("stroke-width", "1.5px")
 		.attr("transform", "");
@@ -413,4 +414,4 @@ d3.selectAll("path").remove();
 			update(time);
 updatescienc();
 updaterelig();
-		
+

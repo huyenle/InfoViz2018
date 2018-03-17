@@ -61,10 +61,7 @@
 			   .attr("height", he)
 			   .on("click", reset)
 			;
-					countriesaGroup = svgmap
-			   .append("g")
-			   .attr("id", "map")
-				;
+		
 
 		function update(year) {
 			d3.select("#year-value").text(year);
@@ -85,7 +82,7 @@
 			
 		function updatescienc(){
 d3.select("#map").remove();
-					countriesaGroup = svgmap
+			countriesaGroup = svgmap
 			   .append("g")
 			   .attr("id", "map")
 				;
@@ -238,7 +235,7 @@ d3.select("#map").remove();
 	    }
 		function updaterelig(){
 d3.select("#map").remove();
-					countriesaGroup = svgmap
+			countriesaGroup = svgmap
 			   .append("g")
 			   .attr("id", "map")
 				;

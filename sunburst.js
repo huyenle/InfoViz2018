@@ -338,7 +338,7 @@ var arc = d3.arc()
       .innerRadius(function(d) { return Math.max(0, y(d.y0)); })
       .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#sunburst").append("svg")
       .attr("width", width)
       .attr("height", height)
     .append("g")

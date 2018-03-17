@@ -398,8 +398,15 @@ d3.selectAll("path").remove();
 			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 		}
 		
-	
-	
+			// Update the sunburst area chart by highlighting the country clicked
+			activeCountry = d.properties.name;
+			d3.selectAll(".arc")
+			  .on("click", click)
+				.classed("arcLight", function(d){
+					if(d.data.name == activeCountry) {console.log(d.data.name);
+												return true; }
+					else return false;
+					 });
 		
 		function reset() {
 		active.classed("active", false);

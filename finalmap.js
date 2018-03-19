@@ -45,7 +45,7 @@
         // set to the same size as the "map-holder" div
         .attr("width", $("#map-holder").width())
 		.attr("height", $("#map-holder").height())
-		.style("border", "1px solid black")
+// 		.style("border", "1px solid black")
 		;
 		
 			countriesaGroup = svgmap
@@ -82,7 +82,7 @@
 			}
 			
 		function updatescienc(){
-d3.select("#map").remove();
+		d3.select("#map").remove();
 			countriesaGroup = svgmap
 			   .append("g")
 			   .attr("id", "map")

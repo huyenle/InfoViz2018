@@ -18,22 +18,29 @@ Information Visualisation Project 2018 UvA
 * maybe a second page for visualization with both religion and science to compare them/ have them together in a graph, or a 'show together' button, when you click it a combined chart will show
 
 # Todo:
+* Arrange the map in a good html homepage:
+	* An overview without science and religion???
+	* have a header, 2 lines of description
+	* for the presentation: have very specific ideas: why this topic, why the visualization, have a good story and have some use cases
+* Map:
+	* small tooltip display pp's names/info
+	* colors, legend
+
+* Sunburst:
+
+* Stacked
+	* colors according to continents
+	
+* Bubble
+	* it does not display correctly now
+	* Fix the axis
+
+* Button to sellect continent (if we have time)
+
 * RECONCILE the name of countries based on Patheon country name
 
-* we need to connect all visualizations together, in term of:
-	* clicking/mouse over effect across the charts and map
-	* color scales: one color for Asia, Europe, etc. instead of messy colors as right now.
- 
-* first show all visualizations on the level of continent. If you zoom in on the map into a continent, the content of all visualizations changes to the level of the countries in that continent the countries on on continent, then on country if clicked on continent. This could be applied for:
-	* stacked area chart
-	* bubble chart
-
-* sunburst needs to be bigger, with clearer title/tooltips
-
-* good html homepage: 
- 	* have a header, 2 lines of description
-	* click on it to show dashboard (?)
-
-* for the presentation: have very specific ideas: why this topic, why the visualization, have a good story and have some use cases
+* Connections need to do:
+	* Sunburst - stacked area and bubble chart
+	* Dropdown menu for countries (if we have time)
 
 * the report is due 2nd april, so don't focus on that for now

@@ -3,8 +3,8 @@
 		// Define size of map group
 		// Full world map is 2:1 ratio
 		// Using 12:5 because we will crop top and bottom of map
-		wi = window.innerWidth;
-		he = window.innerHeight;
+		wi =$("#map-holder").width();
+		he = $("#map-holder").height();
 		var time=2018;
 		var minZoom;
 		var maxZoom;
@@ -44,7 +44,8 @@
         .append("svg")
         // set to the same size as the "map-holder" div
         .attr("width", $("#map-holder").width())
-        .attr("height", $("#map-holder").height())
+		.attr("height", $("#map-holder").height())
+		.style("border", "1px solid black")
 		;
 		
 			countriesaGroup = svgmap
@@ -170,7 +171,7 @@ d3.select("#map").remove();
 			   .attr("d", path)
 				.style("stroke-width","3px")
 			   .style("stroke",function(d){if(d.properties.continent==='Europe'){return 'red'} else if (d.properties.continent==='Asia'){return 'blue'} else if (d.properties.continent==='North America'){return 'green'} else if (d.properties.continent==='South America'){return 'orange'} else if (d.properties.continent==='Africa'){return 'lightblue'} else if (d.properties.continent==='Oceania') {return 'purple'} else {return 'white'}})
-			.style("opacity",0.8)
+				//.style("opacity",0.8)
 			   .attr("id", function(d, i) {
 				  return d.properties.iso_a3;})
 			   .style('fill', function(d) {
@@ -191,6 +192,29 @@ d3.select("#map").remove();
 				return "rgb(" + colora(this.r) +","+ colora(0)+", " + colora(this.s) + ")";})
 			   .attr("class", "country")
 				.on("click", clicked)
+				.on('mouseover', function(d){ // mouse over effect -- Huyen
+					activeCountry = d.properties.name;
+					d3.select(this).classed("country-on", true);
+			
+					mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
+		
+					// Update the stacked area chart
+					d3.selectAll(".area")
+						.classed("areaLight", function(d){
+							if(d.key == activeCountry) {//console.log(d.key);
+														return true; }
+							else return false;
+						   });
+				})//end of mouseover
+
+				.on("mouseout", function(d){ //mouse out effect -- Huyen
+					d3.select(this).classed("country-on", false);
+		
+					// turn back the stacked area map
+					d3.selectAll(".areaLight")
+						.attr("class", "area");
+			   }) // end of mouseout
+		
 			
 			var religipersons = countriesaGroup
 						.selectAll("circle")
@@ -207,7 +231,7 @@ d3.select("#map").remove();
 							.style("fill",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return 'darkred'} else {return "none"}})
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return "pink"} else {return "none"}})
-							.style("stroke-width","1px");
+							//.style("stroke-width","1px");
 			var sciencepersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfscience)
@@ -411,7 +435,7 @@ d3.select("#map").remove();
 			d3.selectAll(".arc")
 			  .on("click", click)
 				.classed("arcLight", function(d){
-					if(d.data.name == activeCountry) {console.log(d.data.name);
+					if(d.data.name == activeCountry) {//console.log(d.data.name);
 												return true; }
 					else return false;
 					 });

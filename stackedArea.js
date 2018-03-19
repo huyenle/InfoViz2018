@@ -1,6 +1,7 @@
 // I'm always hungry..
 var dataset, xScaleA, yScaleA, xAxisA, yAxisA, area, series, areaGroup;
 var countries;  //Empty, for now
+var uniNr;
 
 
 // Settings
@@ -8,6 +9,16 @@ var w = $("#stackedArea").width();
 var h= $("#stackedArea").height();
 var p = 20;
 
+var tooltipA = d3.select("#stackedArea")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("position", "absolute")
+    .style("z-index", "20")
+    .classed("hidden", "true")
+    .style("top", 0.65 * h + $("#map-holder").height() + "px")
+	.style("left", "3%");
+	
+	
 var rowConverter = function(d, i, cols) {
 	//Initial 'row' object includes only year
 	var row = {
@@ -26,10 +37,14 @@ var rowConverter = function(d, i, cols) {
 	return row;
 }
 
-//Set up stack method
-var stack = d3.stack();
-			  //.order(d3.stackOrderDescending);  // <-- Flipped stacking order
+var getDataUni = function(d, country, year, yearMin){
+	return d[year - yearMin].data[country];
+}
 
+//Set up stack method
+var stack = d3.stack()
+			  .order(d3.stackOrderDescending)  // <-- Flipped stacking order
+;
 //Load in data
 d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 	dataset = data.slice(413,513); // SLICE HERE TO SEE FEWER YEAR
@@ -49,14 +64,14 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
     //Data, stacked
 	series = stack(dataset);
     //console.log(series);
-	
+	var yearMin = d3.min(dataset, function(d) { return d.year;});
+	var yearMax = d3.max(dataset, function(d) { return d.year;});
 	
 // CHART ...
 
 	//Create scale functions
     xScaleA = d3.scaleLinear()
-                .domain([d3.min(dataset, function(d) { return d.year;}),
-                        d3.max(dataset, function(d) { return d.year;})])
+                .domain([yearMin, yearMax])
 				.range([p, w - p * 2]);
 
 	yScaleA = d3.scaleLinear()
@@ -96,6 +111,7 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 	//Create SVG element
 	var areaChart = d3.select("#stackedArea")
 				.append("svg")
+				.attr("id", "areachart" )
 				.attr("width", w)
 				.attr("height", h);
 
@@ -112,24 +128,31 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 		.on('mouseover', function(d){
 			activeCountry = d.key;
 			//console.log(activeCountry);
+			// highlight Area 
 			d3.select(this).classed("areaLight", true);
 
-			mouse = d3.mouse(areaChart.node()).map( function(d) { return parseInt(d); } );
-			tooltip.classed("hidden", false)
-				.attr("style", "left:"+(mouse[0]+100)+"px;top:"+(mouse[1]+2*h)+"px")
-				.html(activeCountry);
+			// Make tooltip appear
+			mousex = d3.mouse(this);
+			mousex = mousex[0];
+			var activeYear = Math.round(xScaleA.invert(mousex));
+			//console.log(invertedx);
+			uniNr = getDataUni(d, d.key, activeYear, yearMin);
+			tooltipA.html( "<p>" + activeCountry + "<br>" + uniNr + "</p>" )
+					  .classed("hidden", false);
 
 			//update the map
 			d3.selectAll(".country")
 				.classed("country-on", function(d){
-					if(d.properties.name == activeCountry) return true;
+					if(d.properties.name == activeCountry) {
+						//console.log(activeCountry);
+						return true;}
 					else return false;
 				})
 		}) // Finish .on mouseover
 
 		.on('mouseout', function(d){
 			d3.select(this).classed("areaLight", false);
-			tooltip.classed("hidden", true);
+			tooltipA.classed("hidden", true);
 			
 			// turn back the map
 			d3.selectAll(".country-on")
@@ -147,6 +170,37 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 		.attr("class", "axis")
 		.attr("transform", "translate(" + (w - p * 2) + ",0)")
 		.call(yAxisA);
+
+	// Add moving vertical line
+	var vertical = areaChart
+	.append("line")
+	.attr("id", "vertical")
+	.classed("hidden", true)
+	.attr("x1", xScaleA(yearMax) + 1) 
+	.attr("y1", p)
+	.attr("x2", xScaleA(yearMax) + 1)
+	.attr("y2", h - p)
+	.style("stroke-width", 3)
+	.style("stroke", "white")
+	.style("fill", "none");
+
+	areaChart
+		.on("mousemove", function(){  
+	   		mousex = d3.mouse(this);
+			mousex = mousex[0] + 5;
+			vertical
+				.classed("hidden", false)
+				.attr("x1", mousex)
+			   	.attr("x2", mousex)
+		})
+		.on("mouseover", function(){  
+			mousex = d3.mouse(this);
+			mousex = mousex[0] + 5;
+		 	vertical.attr("x1", mousex)
+					.attr("x2", mousex)})
+		.on("mouseout", function(){
+			vertical.classed("hidden", true)
+		});
 		
 // Finally...
 });

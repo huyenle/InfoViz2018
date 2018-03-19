@@ -44,38 +44,38 @@ body {
     font-size: 17px;
   }
   #map-holder {
-    width: 45%;
-      height: 300px;
+    width: 70%;
+      height: 650px;
       /* bottom: 0px; */
       /* top: 0px; */
-      float: right;
+      float: center;
   }
-  
+
   #map-holder
   svg rect {
       margin: 0px;
     fill: white;   /*map background colour */
-  } 
+  }
 
   #stackedArea{
-      width: 25%;
-      height: 300px;
+      width: 50%;
+      height: 400px;
       margin: 0px;
       float: left;
   }
 
   #bubbleChart{
-      width: 25%;
-      height: 300px;
+      width: 50%;
+      height: 400px;
       float: right;
       margin: 0px;
   }
-  
+
   #sunburst{
       width: 30%;
-      height: 300px;
-      float: left;
-      margin: 1%;
+      height: 650px;
+      float: right;
+      margin: 0px;
   }
 
   .country{

@@ -63,6 +63,190 @@
 			   .on("click", reset)
 			;
 		
+	
+svgmap.append("defs")
+.append("linearGradient")
+.attr("id", "legendGradientMulti")
+.attr("x1", "0%").attr("y1", "0%")
+.attr("x2", "100%").attr("y2", "0%")
+.selectAll("stop")
+.data([
+{offset: "0%", color: "#2c7bb6"},
+{offset: "12.5%", color: "#00a6ca"},
+{offset: "25%", color: "#00ccbc"},
+{offset: "37.5%", color: "#90eb9d"},
+{offset: "50%", color: "#ffff8c"},
+{offset: "62.5%", color: "#f9d057"},
+{offset: "75%", color: "#f29e2e"},
+{offset: "87.5%", color: "#e76818"},
+{offset: "100%", color: "#d7191c"} ])
+.enter().append("stop")
+.attr("offset", function(d) { return d.offset; })
+.attr("stop-color", function(d) { return d.color; });
+
+svgmap.append("rect")
+.attr("x", 0).attr("y", 0)
+.attr("width", wi).attr("height", he)
+.style("fill", "url(#legendGradientMulti)");
+var ylegend = he*1/2
+var xlegend = wi*40/2000
+var hlegend = he*1/4
+
+var scigradient = svgmap.append("svg:defs")
+    .append("svg:linearGradient")
+    .attr("id", "scigradient")
+    .attr("x1", "100%")
+    .attr("y1", "100%")
+    .attr("x2", "100%")
+    .attr("y2", "0%")
+    .attr("spreadMethod", "pad");
+
+// Define the gradient colors
+scigradient.append("svg:stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "rgb(68,0,0)")
+    .attr("stop-opacity", 1);
+
+scigradient.append("svg:stop")
+    .attr("offset", "100%")
+    .attr("stop-color", "rgb(68,0,255)")
+    .attr("stop-opacity", 1);
+
+var scilegend = svgmap.append('rect').attr('id','scilegend')
+var scilegendattr = scilegend.attr('x',0.5*hlegend+xlegend-0.1*hlegend).attr('y',ylegend).attr('height',hlegend).attr('width',0.2*hlegend).style('fill','url(#scigradient)').style('stroke','black').style('stroke-width','2px').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
+
+var relgradient = svgmap.append("svg:defs")
+    .append("svg:linearGradient")
+    .attr("id", "relgradient")
+    .attr("x1", "100%")
+    .attr("y1", "100%")
+    .attr("x2", "100%")
+    .attr("y2", "0%")
+    .attr("spreadMethod", "pad");
+
+// Define the gradient colors
+relgradient.append("svg:stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "rgb(0,0,68)")
+    .attr("stop-opacity", 1);
+
+relgradient.append("svg:stop")
+    .attr("offset", "100%")
+    .attr("stop-color", "rgb(255,0,68)")
+    .attr("stop-opacity", 1);
+
+var rellegend = svgmap.append('rect').attr('id','rellegend')
+var rellegendattr = rellegend.attr('x',0.5*hlegend+xlegend-0.1*hlegend).attr('y',ylegend).attr('height',hlegend).attr('width',0.2*hlegend).style('fill','url(#relgradient)').style('stroke','black').style('stroke-width','2px').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
+
+var bothgradient = svgmap.append("svg:defs")
+    .append("svg:linearGradient")
+    .attr("id", "bothgradient")
+    .attr("x1", "100%")
+    .attr("y1", "100%")
+    .attr("x2", "0%")
+    .attr("y2", "0%")
+    .attr("spreadMethod", "pad");
+
+var bothgradientb = svgmap.append("svg:defs")
+    .append("svg:linearGradient")
+    .attr("id", "bothgradientb")
+    .attr("x1", "100%")
+    .attr("y1", "100%")
+    .attr("x3", "0%")
+    .attr("y2", "0%")
+    .attr("spreadMethod", "pad");
+
+
+var bothgradienta = svgmap.append("svg:defs")
+    .append("svg:linearGradient")
+    .attr("id", "bothgradienta")
+    .attr("x2", "100%")
+    .attr("y1", "100%")
+    .attr("x1", "0%")
+    .attr("y2", "0%")
+    .attr("spreadMethod", "pad");
+
+// Define the gradient colors
+bothgradient.append("svg:stop")
+    .attr("offset", "50%")
+    .attr("stop-color", "rgb(0,0,68)")
+    .attr("stop-opacity", 1);
+
+
+bothgradient.append("svg:stop")
+    .attr("offset", "75%")
+    .attr("stop-color", "rgb(255,0,68)")
+    .attr("stop-opacity", 1);
+
+bothgradienta.append("svg:stop")
+    .attr("offset", "50%")
+    .attr("stop-color", "rgb(68,0,0)")
+    .attr("stop-opacity", 1);
+
+
+bothgradienta.append("svg:stop")
+    .attr("offset", "75%")
+    .attr("stop-color", "rgb(68,0,255)")
+    .attr("stop-opacity", 1);
+
+ bothgradientb.append("svg:stop")
+    .attr("offset", "0%")
+    .attr("stop-color", "rgb(68,0,68)")
+    .attr("stop-opacity", 1);
+
+
+bothgradientb.append("svg:stop")
+    .attr("offset", "110%")
+    .attr("stop-color", "rgb(255,255,255)")
+    .attr("stop-opacity", 1);
+
+   
+svgmap.append('polyline').attr("fill",'url(#bothgradientb)').attr("id","bothlegendb")
+    .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
+    .style('stroke','black')
+	.style('stroke-width','2px')
+.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
+	
+svgmap.append('polyline').attr("fill",'url(#bothgradient)').attr("id","bothlegend")
+    .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
+    .style('stroke','black')
+	.style('stroke-width','2px')
+.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
+
+svgmap.append('polyline').attr("fill",'url(#bothgradienta)').attr("id","bothlegenda")
+    .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
+    .style('stroke','black')
+	.style('stroke-width','2px')
+.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
+
+texsize = wi/2000*30
+
+svgmap.append('text')
+.attr('x',xlegend*1.1)
+.attr('id','legendtext')
+.attr('y',1.5*ylegend+texsize)
+.style('font-size',texsize+'px')
+.style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
+.style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
+.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});	
+
+svgmap.append('text')
+.attr('x',0.5*texsize)
+.attr('id','upperlegendtext')
+.attr('y',ylegend-texsize)
+.style('font-size',texsize+'px')
+.style('opacity',function(){if((Scientech.checked===true && Relig.checked===false)|| (Relig.checked===true && Scientech.checked===false)){return 1} else {return 0}})
+.style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
+.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});	
+
+svgmap.append('text')
+.attr('x',hlegend+xlegend-2*texsize)
+.attr('id','upperrightlegendtext')
+.attr('y',ylegend-texsize)
+.style('font-size',texsize+'px')
+.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}})
+.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Science'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});	
+
 
 		function update(year) {
 			d3.select("#year-value").text(year);
@@ -82,6 +266,18 @@
 			}
 			
 		function updatescienc(){
+d3.select('#scilegend').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
+d3.select('#rellegend').style('opacity',function(){if(Scientech.checked===false && Relig.checked===true){return 1} else {return 0}})
+d3.select('#bothlegend').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
+d3.select('#bothlegendb').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
+d3.select('#bothlegenda').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
+d3.select('#legendtext').style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}}).text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});
+d3.select('#upperlegendtext').style('opacity',function(){if((Scientech.checked===true && Relig.checked===false)|| (Relig.checked===true && Scientech.checked===false)){return 1} else {return 0}})
+.style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
+.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});	
+d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}})
+
+
 		d3.select("#map").remove();
 			countriesaGroup = svgmap
 			   .append("g")
@@ -171,7 +367,8 @@
 			   .attr("d", path)
 				.style("stroke-width","3px")
 			   .style("stroke",function(d){if(d.properties.continent==='Europe'){return 'red'} else if (d.properties.continent==='Asia'){return 'blue'} else if (d.properties.continent==='North America'){return 'green'} else if (d.properties.continent==='South America'){return 'orange'} else if (d.properties.continent==='Africa'){return 'lightblue'} else if (d.properties.continent==='Oceania') {return 'purple'} else {return 'white'}})
-				//.style("opacity",0.8)
+			.style("opacity",0.8)
+			.style("stroke-opacity",0.4)
 			   .attr("id", function(d, i) {
 				  return d.properties.iso_a3;})
 			   .style('fill', function(d) {
@@ -231,6 +428,7 @@
 							.style("fill",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return 'darkred'} else {return "none"}})
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return "pink"} else {return "none"}})
+.on('click',function(d){alert(d.full_name)})
 							//.style("stroke-width","1px");
 			var sciencepersons = countriesaGroup
 						.selectAll("circle")
@@ -246,8 +444,9 @@
 							.attr("domaincol","blue")
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Scientech.checked===true) {return "skyblue"} else {return "none"}})
-							.style("stroke-width","1px");
-			
+							.style("stroke-width","1px")
+.on('click',function(d){alert(d.full_name)});			
+
 				if (Scientech.checked===false){
 			d3.selectAll('#scienceattr')
 			.style("fill","none")
@@ -258,6 +457,18 @@
 	    }	
 	    }
 		function updaterelig(){
+d3.select('#scilegend').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
+d3.select('#rellegend').style('opacity',function(){if(Scientech.checked===false && Relig.checked===true){return 1} else {return 0}})
+d3.select('#bothlegend').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
+d3.select('#bothlegendb').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
+d3.select('#bothlegenda').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
+d3.select('#legendtext').style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}}).text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});
+d3.select('#upperlegendtext').style('opacity',function(){if((Scientech.checked===true && Relig.checked===false)|| (Relig.checked===true && Scientech.checked===false)){return 1} else {return 0}})
+.style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
+.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});	
+d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}})
+
+
 d3.select("#map").remove();
 			countriesaGroup = svgmap
 			   .append("g")
@@ -348,6 +559,7 @@ d3.select("#map").remove();
 				.style("stroke-width","3px")
 			   .style("stroke",function(d){if(d.properties.continent==='Europe'){return 'red'} else if (d.properties.continent==='Asia'){return 'blue'} else if (d.properties.continent==='North America'){return 'green'} else if (d.properties.continent==='South America'){return 'orange'} else if (d.properties.continent==='Africa'){return 'lightblue'} else{return 'purple'}})
 			.style("opacity",0.8)
+			.style("stroke-opacity",0.4)
 			   .attr("id", function(d, i) {
 				  return d.properties.iso_a3;})
 			   .style('fill', function(d) {
@@ -384,7 +596,9 @@ d3.select("#map").remove();
 							.style("fill",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return 'darkred'} else {return "none"}})
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return "pink"} else {return "none"}})
-							.style("stroke-width","1px");
+							.style("stroke-width","1px")
+.on('click',function(d){alert(d.full_name)});
+
 			var sciencepersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfscience)
@@ -399,7 +613,9 @@ d3.select("#map").remove();
 							.attr("domaincol","blue")
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Scientech.checked===true) {return "skyblue"} else {return "none"}})
-							.style("stroke-width","1px");
+							.style("stroke-width","1px")
+.on('click',function(d){alert(d.full_name)});
+
 			if (Relig.checked===false){
 			d3.selectAll('#religiattr')
 			.style("fill","none")

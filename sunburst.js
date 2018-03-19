@@ -316,8 +316,8 @@ var nodeData = {"name": "World", "children": [{
 
                   ]};
 
-var width = $("#stackedArea").width();
-    height = $("#stackedArea").height();
+var width = $("#sunburst").width();
+    height = $("#sunburst").height();
     radius = (Math.min(width, height) / 2) - 10;
 
 var formatNumber = d3.format(",d");

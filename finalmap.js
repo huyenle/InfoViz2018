@@ -64,7 +64,14 @@
 			;
 		
 	
-
+		var tooltipB = d3.select("#map-holder")
+		.append("div")
+		.attr("class", "tooltip")
+		.style("position", "absolute")
+		.style("z-index", "20")
+		.classed("hidden", "true")
+		.style("top", 1.1 * $("#map-holder").height() + "px")
+		.style("left", "3%");
 
 
 svgmap.append("rect")
@@ -423,8 +430,20 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 							.style("fill",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return 'darkred'} else {return "none"}})
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return "pink"} else {return "none"}})
-.on('click',function(d){alert(d.full_name)})
+							.on('mouseover', function(d){
+									activePerson = d.full_name;
+									d3.select(this).classed("areaLight", true);
+									mousex = d3.mouse(this);
+									mousex = mousex[0];
+									tooltipB.html(  "<p>" + d.full_name + "<br>" + d.birth_year + "<br>" + d.country + "<br>" + d.occupation +"</p>" )
+											  .classed("hidden", false);
+								}) 
 							//.style("stroke-width","1px");
+			
+			.on('mouseout', function(d){
+			d3.select(this).classed("areaLight", false);
+			tooltipB.classed("hidden", true);});
+			
 			var sciencepersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfscience)
@@ -440,7 +459,17 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Scientech.checked===true) {return "skyblue"} else {return "none"}})
 							.style("stroke-width","1px")
-.on('click',function(d){alert(d.full_name)});			
+							.on('mouseover', function(d){
+									activePerson = d.full_name;
+									d3.select(this).classed("areaLight", true);
+									mousex = d3.mouse(this);
+									mousex = mousex[0];
+									tooltipB.html( "<p>" + d.full_name + "<br>" + d.birth_year + "<br>" + d.country + "<br>" + d.occupation + "</p>" )
+											  .classed("hidden", false);
+								})
+							.on('mouseout', function(d){
+							d3.select(this).classed("areaLight", false);
+							tooltipB.classed("hidden", true);});
 
 				if (Scientech.checked===false){
 			d3.selectAll('#scienceattr')

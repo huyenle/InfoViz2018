@@ -1,9 +1,9 @@
 var margin = {top: 20, right: 20, bottom: 20, left: 10},
     width = $("#bubbleChart").width(),
-    height = $("#bubbleChart").height();
+    height = $("#bubbleChart").height() -18;
 
 // setup x
-var xValue = function(d) { return d.year + Math.random() *2 -1 ;}, // data -> value
+var xValue = function(d) { return d.year + Math.random() *2.5 -1 ;}, // data -> value
     xScaleB = d3.scaleLinear().range([margin.left, width-margin.left*2]), // value -> display
     xMap = function(d) { return xScaleB(xValue(d));}, // data -> display
     xAxis = d3.axisBottom()
@@ -48,8 +48,8 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
     //console.log(d);
   });
 
-  xScaleB.domain([d3.min(data, xValue)-2, d3.max(data, xValue)+3]);
-  yScaleB.domain([0, d3.max(data, yValue)+3]);
+  xScaleB.domain([d3.min(data, xValue), d3.max(data, xValue)]);
+  yScaleB.domain([0, d3.max(data, yValue)]);
 
   // size of bubbles
   var scaleRadius = d3.scaleLinear()
@@ -70,7 +70,7 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
             "translate(" + (width/2) + " ," +
                            (height + margin.top + 20) + ")")
       .style("text-anchor", "middle")
-      .text("Year");
+      //.text("Year");
 
   // y-axis
   bubbles.append("g")
@@ -86,7 +86,7 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .style("font", "12px")
-      .text("Percentage of pupulation that is religious");
+      //.text("Percentage of pupulation that is religious");
 
   // draw dots
 
@@ -121,6 +121,7 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
           console.log(activeCountry);
 
           d3.select(this).classed("bubblesLight", true);
+          //console.log(this);
           tooltip.html(d["country"] + " in " + d["year"] + "<br/> ("
             + yValue(d) + "% religious)")
                .style("left", (d3.event.pageX + 5) + "px")

@@ -64,25 +64,8 @@
 			;
 		
 	
-svgmap.append("defs")
-.append("linearGradient")
-.attr("id", "legendGradientMulti")
-.attr("x1", "0%").attr("y1", "0%")
-.attr("x2", "100%").attr("y2", "0%")
-.selectAll("stop")
-.data([
-{offset: "0%", color: "#2c7bb6"},
-{offset: "12.5%", color: "#00a6ca"},
-{offset: "25%", color: "#00ccbc"},
-{offset: "37.5%", color: "#90eb9d"},
-{offset: "50%", color: "#ffff8c"},
-{offset: "62.5%", color: "#f9d057"},
-{offset: "75%", color: "#f29e2e"},
-{offset: "87.5%", color: "#e76818"},
-{offset: "100%", color: "#d7191c"} ])
-.enter().append("stop")
-.attr("offset", function(d) { return d.offset; })
-.attr("stop-color", function(d) { return d.color; });
+
+
 
 svgmap.append("rect")
 .attr("x", 0).attr("y", 0)

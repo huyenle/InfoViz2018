@@ -17,17 +17,23 @@
 <body>
 
 	 <p>
+     <label for="title" style="font-size:20px; width:850px; color:Black;">
+     Public Interests and Development of Science Vs. Religion</font></label>
+
+     <label for="Science & Technology" style="width:120px; font-size:10px; text-align:right; color:black">Science & Technology</font></label>
+     <input type="checkbox" id="Scientech">
+     <label for="Religion" style="width:70px; font-size:10px; text-align:right; color:black">Religion</font></label>
+     <input type="checkbox" id="Relig" width="130px">
+
        <label for="year"
-       style="display: inline-block; width:300px; text-align: left; font-size:20px; color:Black; font-weight: bold;">
+       style="float:center; width:120px; font-size:20px; text-align:right; color:Black">
        Year: <span id="year-value">...</span>
        </label>
-	 	<input type="range" min="-3500" max="2018" id="year" width="1000px" >
-	<br>
-	<label for="Science & Technology" style="width:500px; font-size:15px; color:blue">Science & Technology</font></label>
-	<input type="checkbox" id="Scientech">
-	<label for="Religion" style="width:500px; font-size:15px; color:Red">Religion</font></label>
-	<input type="checkbox" id="Relig">
-	</p>
+
+       <input type="range" min="-3500" max="2018" id="year" width="800px" >
+
+
+	 </p>
 
 <div class="row">
     <div id="sunburst">
@@ -46,14 +52,14 @@
 
 <div class="row">
     <div id="stackedArea">
-      <label for="stackedArea"> Number of Universities over time</label>
+      <label for="stackedArea" style="font-size:15px; color:Black;"> Number of Universities over time</label>
       <script type = "text/javascript" src="stackedArea.js"></script>
     </div>
     <div id="bubbleChart">
-    	<label for="bubbleChart">Average number of universities with respect to percentage religious people</label>
+    	<label for="bubbleChart" style="font-size:15px; float:center; color:Black;">Percentage of Religious Followers (Bubble Size shows Country's Population)</label>
     	<script type = "text/javascript" src="bubblechart.js"></script>
     </div>
 </div>
-	
+
   </body>
 </html>

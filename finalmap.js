@@ -129,7 +129,7 @@ var bothgradient = svgmap.append("svg:defs")
     .attr("x2", "0%")
     .attr("y2", "0%")
     .attr("spreadMethod", "pad");
-
+/*
 var bothgradientb = svgmap.append("svg:defs")
     .append("svg:linearGradient")
     .attr("id", "bothgradientb")
@@ -138,7 +138,7 @@ var bothgradientb = svgmap.append("svg:defs")
     .attr("x3", "0%")
     .attr("y2", "0%")
     .attr("spreadMethod", "pad");
-
+*/
 
 var bothgradienta = svgmap.append("svg:defs")
     .append("svg:linearGradient")
@@ -171,7 +171,7 @@ bothgradienta.append("svg:stop")
     .attr("offset", "75%")
     .attr("stop-color", "rgb(68,0,255)")
     .attr("stop-opacity", 1);
-
+/*
  bothgradientb.append("svg:stop")
     .attr("offset", "0%")
     .attr("stop-color", "rgb(68,0,68)")
@@ -189,18 +189,18 @@ svgmap.append('polyline').attr("fill",'url(#bothgradientb)').attr("id","bothlege
     .style('stroke','black')
 	.style('stroke-width','2px')
 .style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
-	
+*/	
 svgmap.append('polyline').attr("fill",'url(#bothgradient)').attr("id","bothlegend")
     .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
     .style('stroke','black')
 	.style('stroke-width','2px')
-.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
+.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.3} else {return 0}});
 
 svgmap.append('polyline').attr("fill",'url(#bothgradienta)').attr("id","bothlegenda")
     .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
     .style('stroke','black')
 	.style('stroke-width','2px')
-.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
+.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.3} else {return 0}});
 
 texsize = wi/2000*30
 
@@ -252,7 +252,7 @@ svgmap.append('text')
 d3.select('#scilegend').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
 d3.select('#rellegend').style('opacity',function(){if(Scientech.checked===false && Relig.checked===true){return 1} else {return 0}})
 d3.select('#bothlegend').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
-d3.select('#bothlegendb').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
+//d3.select('#bothlegendb').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
 d3.select('#bothlegenda').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
 d3.select('#legendtext').style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}}).text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});
 d3.select('#upperlegendtext').style('opacity',function(){if((Scientech.checked===true && Relig.checked===false)|| (Relig.checked===true && Scientech.checked===false)){return 1} else {return 0}})
@@ -443,7 +443,7 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 d3.select('#scilegend').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
 d3.select('#rellegend').style('opacity',function(){if(Scientech.checked===false && Relig.checked===true){return 1} else {return 0}})
 d3.select('#bothlegend').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
-d3.select('#bothlegendb').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
+//d3.select('#bothlegendb').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
 d3.select('#bothlegenda').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.5} else {return 0}});
 d3.select('#legendtext').style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}}).text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});
 d3.select('#upperlegendtext').style('opacity',function(){if((Scientech.checked===true && Relig.checked===false)|| (Relig.checked===true && Scientech.checked===false)){return 1} else {return 0}})

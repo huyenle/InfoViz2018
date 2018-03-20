@@ -385,6 +385,14 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 														return true; }
 							else return false;
 						   });
+				
+					// Update the sunburst area chart by highlighting the country
+					d3.selectAll(".arc")
+						.classed("arcLight", function(d){
+									 if(d.data.name == activeCountry) {//console.log(d.data.name);
+														 return true; }
+									 else return false;
+										});
 				})//end of mouseover
 
 				.on("mouseout", function(d){ //mouse out effect -- Huyen
@@ -393,6 +401,10 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 					// turn back the stacked area map
 					d3.selectAll(".areaLight")
 						.attr("class", "area");
+					// turn back sunburst
+					d3.selectAll(".arcLight")
+					  .attr("class", "arc");
+				
 			   }) // end of mouseout
 		
 			
@@ -627,17 +639,6 @@ d3.select("#map").remove();
 			.duration(750)
 			.style("stroke-width", 1.5 / scale + "px")
 			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-		
-		
-			// Update the sunburst area chart by highlighting the country clicked
-			activeCountry = d.properties.name;
-			d3.selectAll(".arc")
-			  .on("click", click)
-				.classed("arcLight", function(d){
-					if(d.data.name == activeCountry) {//console.log(d.data.name);
-												return true; }
-					else return false;
-					 });
 		
 	}
 	

@@ -1,5 +1,5 @@
 body {
-    padding: 0px;
+    padding: 10px;
 }
 
 input[type=range]{
@@ -187,8 +187,17 @@ body {
       opacity: 0.2;
   }
 
-.arcLight {
+  .arcLight {
       opacity: 1.0;
+  }
+
+  .box{
+    	width:30px;
+    	height:50px;
+  }
+
+  .white{
+      background:white;
   }
 
   div.tooltip {/*style for tooltip*/

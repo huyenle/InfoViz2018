@@ -1,7 +1,43 @@
 // I'm always hungry..
+
+// Global variables
 var dataset, xScaleA, yScaleA, xAxisA, yAxisA, area, series, areaGroup;
-var countries;  //Empty, for now
+var countries;
+var continents = {};
 var uniNr;
+
+// colors are the most important things....
+var colorAsOc = "#2b83ba",
+	colorEurope = "#d7191c",
+	colorNAmerica = "#a6d854",
+	colorSAmerica = "#d95f0e",
+	colorAfrica = "#756bb1";
+
+// Load continent data
+d3.csv("./data/continents_data.csv", function(data){
+	for (var i = 0; i < data.length; i++){
+		var row = data[i];
+		continents[row["Country"]] = row["Continent"];
+	};
+});
+
+// Function to define colors
+var colorScale = function(d){
+	switch(continents[d.key]){
+		case "Asia":
+			return colorAsOc;
+		case "Oceania":
+			return colorAsOc;
+		case "Africa":
+		 	return colorAfrica;
+		case "South America":
+			return colorSAmerica;
+		case "North America":
+			return colorNAmerica;
+		case "Europe":
+			return colorEurope;
+	}
+};
 
 
 // Settings
@@ -43,7 +79,7 @@ var getDataUni = function(d, country, year, yearMin){
 
 //Set up stack method
 var stack = d3.stack()
-			  .order(d3.stackOrderDescending)  // <-- Flipped stacking order
+			  //.order(d3.stackOrderDescending)  // <-- Flipped stacking order
 ;
 //Load in data
 d3.csv("data/Uni_data.csv", rowConverter, function(data) {
@@ -56,10 +92,9 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 	countries.shift(); //Remove first column name ('Year')
 	stack.keys(countries);  //Stack using what's left (the coutries)
 
-	var colorScale = d3.scaleSequential(d3.interpolateRainbow)
-						.domain([0, countries.length + 1]);
+	// var colorScale = d3.scaleSequential(d3.interpolateRainbow)
+	// 					.domain([0, countries.length + 1]);
 
-	//console.log(colorScale(90));
     
     //Data, stacked
 	series = stack(dataset);
@@ -123,7 +158,8 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 		.attr("class", "area")
 		.attr("d", area)
 		.attr("fill", function(d, i) {
-			return colorScale(i);
+			console.log(colorScale(d));
+			return colorScale(d);
 		})
 		.on('mouseover', function(d){
 			activeCountry = d.key;

@@ -70,8 +70,8 @@
 		.style("position", "absolute")
 		.style("z-index", "20")
 		.classed("hidden", "true")
-		.style("top", 1.1 * $("#map-holder").height() + "px")
-		.style("left", "3%");
+		.style("top", "15%")
+		.style("left", "76%");
 
 
 svgmap.append("rect")
@@ -435,7 +435,7 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 									d3.select(this).classed("areaLight", true);
 									mousex = d3.mouse(this);
 									mousex = mousex[0];
-									tooltipB.html(  "<p>" + d.full_name + "<br>" + d.birth_year + "<br>" + d.country + "<br>" + d.occupation +"</p>" )
+									tooltipB.html(  "<p>" + d.occupation + "<br>" + d.full_name + " (" + d.birth_year + ")" + " from " + d.country + "</p>" )
 											  .classed("hidden", false);
 								}) 
 							//.style("stroke-width","1px");
@@ -464,7 +464,7 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 									d3.select(this).classed("areaLight", true);
 									mousex = d3.mouse(this);
 									mousex = mousex[0];
-									tooltipB.html( "<p>" + d.full_name + "<br>" + d.birth_year + "<br>" + d.country + "<br>" + d.occupation + "</p>" )
+									tooltipB.html( "<p>" + d.occupation + "<br>" + d.full_name + " (" + d.birth_year + ")" + " from " + d.country + "</p>" )
 											  .classed("hidden", false);
 								})
 							.on('mouseout', function(d){

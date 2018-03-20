@@ -1,5 +1,5 @@
 body {
-    padding: 10px;
+    padding: 0px;
 }
 
 input[type=range]{
@@ -11,7 +11,7 @@ input[type=range]{
 }
 
 input[type=range]::-moz-range-track {
-    width: 500px;
+    width: $("#map-holder").width();
     height: 10px;
     background: #ddd;
     border: none;
@@ -176,7 +176,7 @@ body {
   }
 
 .bubbles {
-  opacity: 0.15;
+  opacity: 0.3;
   }
 
   .bubblesLight {
@@ -187,17 +187,8 @@ body {
       opacity: 0.2;
   }
 
-  .arcLight {
+.arcLight {
       opacity: 1.0;
-  }
-
-  .box{
-    	width:30px;
-    	height:50px;
-  }
-
-  .white{
-      background:white;
   }
 
   div.tooltip {/*style for tooltip*/

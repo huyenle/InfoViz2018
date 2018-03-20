@@ -1,17 +1,17 @@
 body {
-    padding: 30px;
+    padding: 0px;
 }
 
 input[type=range]{
     /* fix for FF unable to apply focus style bug  */
-    border: 0px solid white; 
+    border: 15px solid white;
 
     /*required for proper track sizing in FF*/
-    width: 1000px;
-} 
+    width: 500px;
+}
 
 input[type=range]::-moz-range-track {
-    width: 1000px;
+    width: 500px;
     height: 10px;
     background: #ddd;
     border: none;
@@ -39,13 +39,55 @@ input[type=range]:focus::-moz-range-track {
 /* Added style */
 body {
     background-color: #FFFFFF;
-    font-family: 'Yanone Kaffeesatz', sans-serif;
+    /* font-family: 'Yanone Kaffeesatz', sans-serif; */
     font-weight: 200;
-    font-size: 17px;
+    font-size: 12px;
   }
+
+  #sidebar {
+    float: right;
+    width: 100px;
+  }
+
+  #sequence {
+    width: 600px;
+    height: 70px;
+  }
+
+  #legend {
+    padding: 10px 0 0 3px;
+  }
+
+  #sequence text, #legend text {
+    font-weight: 600;
+    fill: #fff;
+  }
+
+  #chart {
+    position: relative;
+  }
+
+  #chart path {
+    stroke: #fff;
+  }
+
+  #explanation {
+    position: absolute;
+    top: 110px;
+    left: 90px;
+    width: 140px;
+    text-align: center;
+    color: #666;
+    z-index: -1;
+  }
+
+  #percentage {
+    font-size: 2.5em;
+  }
+
   #map-holder {
-    width: 70%;
-      height: 650px;
+    width: 75%;
+      height: 420px;
       /* bottom: 0px; */
       /* top: 0px; */
       float: center;
@@ -53,41 +95,44 @@ body {
 
   #map-holder
   svg rect {
-      margin: 0px;
+      margin: 10px;
     fill: white;   /*map background colour */
   }
 
   #stackedArea{
       width: 50%;
-      height: 400px;
+      height: 250px;
       margin: 0px;
       float: left;
+      text-align:center;
   }
 
   #bubbleChart{
       width: 50%;
-      height: 400px;
+      height: 250px;
       float: right;
+      text-align:center;
       margin: 0px;
   }
 
   #sunburst{
-      width: 30%;
-      height: 650px;
+      width: 25%;
+      height: 350px;
       float: right;
       margin: 0px;
+      text-align:center;
   }
 
   .country{
-      opacity: 0.6;
+      opacity: 0.5;
     /*fill: #d0d0d0;   /* country colour */
     /*stroke: white; /* country border colour */
-      stroke-width: 0.7; /* country border width */
+      stroke-width: 0.1; /* country border width */
   }
   .country-on{
       /*fill: #4B5358;   /* highlight colour for selected country */
       /* stroke:white;*/
-      stroke-width: 2.0; 
+      stroke-width: 2.0;
       opacity: 0.9;
   }
 
@@ -129,7 +174,7 @@ body {
               stroke: white;
               stroke-width: 1px;
   }
-  
+
 .bubbles {
   opacity: 0.3;
   }

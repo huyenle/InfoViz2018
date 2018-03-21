@@ -14,30 +14,41 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 
-<body>
-	
-     <label for="title" style="font-size:20px; width:850px; color:Black;">
-     Public Interests and Development of Science Vs. Religion</font></label>
+<div class="row">
 
-     <label for="Science & Technology" style="width:120px; font-size:10px; text-align:right; color:black">Science & Technology</font></label>
-     <input type="checkbox" id="Scientech">
-     <label for="Religion" style="width:70px; font-size:10px; text-align:right; color:black">Religion</font></label>
-     <input type="checkbox" id="Relig" width="130px">
+        <label for="title" style="background-color:MediumSeaGreen; font-size:30px; color:black; font-family: Arial, Helvetica, sans-serif;">
+        Public Interests and Development of Science Vs. Religion</font></label>
 
-       <label for="year"
-       style="float:center; width:120px; font-size:20px; text-align:right; text-decoration: underline; color:Black">
-       Year: <span id="year-value">...</span>
-       </label>
+        <label for="year"
+         style="float:center; background-color:coral; font-size:20px; text-align:right; text-decoration: underline; color:black">
+         Year: <span id="year-value">...</span>
+        </label>
 
-       <input type="range" min="1500" max="2018" id="year" width="800px" >
+        <label for="Science & Technology" style="background-color:white; font-size:10px; text-align:center; color:black">Science & Technology</font></label>
+        <input type="checkbox" id="Scientech">
+        <label for="Religion" style="background-color:white; font-size:10px; text-align:center; color:black">Religion</font></label>
+        <input type="checkbox" id="Relig" width="130px">
+
+        <input type="range" min="1500" max="2018" id="year" width="800px" >
+</div>
 
 <div class="row">
     <div id="sunburst">
-	    <div class= "box white"></div>
-      <script type="text/javascript" src="sunburst.js"></script>
+      <div class= "box white"></div>
+      <div id="chart" style="font-size:12px; font-weight:300; font-family:Helvetica;">
+        <label for="sunburst" style="font-size:15px; background-color:lightblue; color:Black;">Number of Popular Historical Figures</font></label>
+        <div id="explanation" style="visibility: hidden; font-size:30px;">
+          <span id="percentage" style="font-size:10px; font-family:Helvetica;"></span><br/>
+        </div>
+      </div>
     </div>
+
+    <script type="text/javascript" src="sequence_sunburst.js"></script>
     <div id="map-holder" >
-      <script type="text/javascript" src = "finalmap.js"></script>
+      <script type="text/javascript" src = "finalmap_new.js"></script>
+      <!-- <div id="legend"> -->
+        <!-- <input type="checkbox" id="togglelegend"> Legend<br/> -->
+        <!-- <div id="legend"></div> -->
     </div>
 </div>
 

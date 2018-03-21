@@ -46,7 +46,7 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
     d.year = +d.year;
     d.nr_unis = +d.nr_unis;
     d.nonreligpct = +d.nonreligpct * 100;
-    d.religpct = +d.religpct * 100;
+    d.religpct = Math.round(+d.religpct * 100 * 10) / 10;
     d.uni_per_pop = +d.uni_per_pop;
     d.continent = d.continent;
     d.popsize = +d.popsize;
@@ -96,9 +96,10 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
   // draw dots
 
 
-  bubbles.selectAll("path")
+  bubbles.selectAll("bubbles")
       .data(data)
     .enter().append("circle")
+      .attr("id", "bubblecircle")
     //  .filter(function(d) { return d.country == activeCountry })
       .attr("class", "bubbles")
       .attr("d", bubbles)
@@ -107,17 +108,17 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
       .attr('r', function(d) { return scaleRadius(d.popsize)})
       .style("fill", function(d) {
         if (d.continent == "Europe") {
-          return "red";
+          return colorEurope;
         } else if (d.continent == "Asia") {
-          return "blue";
+          return colorAsOc;
         } else if (d.continent == "North America") {
-          return "green";
+          return colorNAmerica;
         } else if (d.continent == "South America") {
-          return "orange";
+          return colorSAmerica;
         } else if (d.continent == "Oceania") {
-          return "purple";
+          return colorAsOc;
         } else if (d.continent == "Africa") {
-          return "lightblue";
+          return colorAfrica;
         }
         return "black";
         })
@@ -125,10 +126,10 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
           activeCountry = d.country
           console.log(activeCountry);
           // make bubble light up
-          d3.selectAll("circle")
+          d3.selectAll("#bubblecircle")
             .filter(function(d) { return d.country == activeCountry })
             .classed("bubblesLight", true)
-            .attr('r', function(d) { return 10});
+            .attr('r', function(d) { return 15});
 
           //console.log(this);
           tooltipC.html(d["country"] + " in " + d["year"] + "<br/> ("
@@ -142,7 +143,7 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
          				})
       })
       .on('mouseout', function(d){
-        d3.selectAll("circle")
+        d3.selectAll("#bubblecircle")
         .classed("bubblesLight", false)
         .attr('r', function(d) { return scaleRadius(d.popsize)});
         return tooltipC.style("visibility", "hidden");

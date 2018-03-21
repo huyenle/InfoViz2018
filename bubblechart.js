@@ -19,6 +19,7 @@ var yValue = function(d) { return d.religpct;}, // data -> value
                 .ticks(10);
 
 
+
 // add the graph canvas to the body of the webpage
 var bubbles = d3.select("#bubbleChart").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -31,7 +32,7 @@ var tooltipC = d3.select("#bubbleChart")
       .attr("class", "tooltip")
     	.style("position", "absolute")
     	.style("z-index", "10")
-      .style("top", 1.1 * h + $("#map-holder").height() + "px")
+      .style("top", 1.1 * height + $("#map-holder").height() + "px")
       .style("left", "53  %")
     	.style("visibility", "hidden");
 
@@ -96,7 +97,7 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
   // draw dots
 
   // filter for continent
-  d3.selectAll(".contCheckbox").on("change",update);
+  d3.selectAll(".contCheckbox").on("change.bu",update);
   update();
 
   function update(){

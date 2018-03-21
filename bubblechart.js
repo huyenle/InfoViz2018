@@ -26,9 +26,14 @@ var bubbles = d3.select("#bubbleChart").append("svg")
 
 
 // add the tooltip area to the webpage
-var tooltip = d3.select("#bubbleChart").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+var tooltipC = d3.select("#bubbleChart")
+    	.append("div")
+      .attr("class", "tooltip")
+    	.style("position", "absolute")
+    	.style("z-index", "10")
+      .style("top", 1.1 * h + $("#map-holder").height() + "px")
+      .style("right", "40%")
+    	.style("visibility", "hidden");
 
 
 
@@ -119,13 +124,13 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
       .on("mouseover", function(d) {
           activeCountry = d.country
           console.log(activeCountry);
-
+          // make bubble light up
           d3.select(this).classed("bubblesLight", true);
           //console.log(this);
-          tooltip.html(d["country"] + " in " + d["year"] + "<br/> ("
-            + yValue(d) + "% religious)")
-               .style("left", (d3.event.pageX + 5) + "px")
-               .style("top", (d3.event.pageY - 28) + "px");
+          tooltipC.html(d["country"] + " in " + d["year"] + "<br/> ("
+              + yValue(d) + "% religious)");
+          return tooltipC.style("visibility", "visible");
+
           d3.selectAll(".country")
          				.classed("country-on", function(d){
          					if(d.properties.name == activeCountry) return true;
@@ -134,10 +139,6 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
       })
       .on('mouseout', function(d){
         d3.select(this).classed("bubblesLight", false);
-        tooltip.classed("hidden", true);
-
-       // turn back the map
- 			  d3.selectAll(".country-on")
- 				.attr("class", "country");
+        return tooltipC.style("visibility", "hidden");
       });
 });

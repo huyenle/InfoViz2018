@@ -13,6 +13,7 @@ var colorAsOc = "#2b83ba",
 	colorSAmerica = "#d95f0e",
 	colorAfrica = "#756bb1";
 
+
 // Load continent data
 d3.csv("./data/continents_data.csv", function(data){
 	for (var i = 0; i < data.length; i++){
@@ -53,8 +54,8 @@ var tooltipA = d3.select("#stackedArea")
     .classed("hidden", "true")
     .style("top", 0.65 * h + $("#map-holder").height() + "px")
 	.style("left", "3%");
-	
-	
+
+
 var rowConverter = function(d, i, cols) {
 	//Initial 'row' object includes only year
 	var row = {
@@ -81,11 +82,13 @@ var getDataUni = function(d, country, year, yearMin){
 var stack = d3.stack()
 			  //.order(d3.stackOrderDescending)  // <-- Flipped stacking order
 ;
+
+
 //Load in data
 d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 	dataset = data.slice(413,513); // SLICE HERE TO SEE FEWER YEAR
-    //console.log(dataset);	
-     
+    //console.log(dataset);
+
 	//Now that we know the column names in the data…
     countries = data.columns;
     //console.log(countries);
@@ -95,13 +98,13 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 	// var colorScale = d3.scaleSequential(d3.interpolateRainbow)
 	// 					.domain([0, countries.length + 1]);
 
-    
+
     //Data, stacked
 	series = stack(dataset);
     //console.log(series);
 	var yearMin = d3.min(dataset, function(d) { return d.year;});
 	var yearMax = d3.max(dataset, function(d) { return d.year;});
-	
+
 // CHART ...
 
 	//Create scale functions
@@ -150,11 +153,31 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 				.attr("width", w)
 				.attr("height", h);
 
+//	filter for continent
+  d3.selectAll(".contCheckbox").on("change.st",updateStack);
+  updateStack();
+
+  function updateStack(){
+    choices = [];
+    d3.selectAll(".contCheckbox").each(function(d){
+      cb = d3.select(this);
+      if(cb.property("checked")){
+        choices.push(cb.property("value"))
+        console.log(choices);
+			}
+    });
+
+
+	areaChart.selectAll("#allAreas").remove()
+
 	//Create areas
 	areaGroup = areaChart.selectAll("path")
 		.data(series)
 		.enter()
 		.append("path")
+		.attr("id", "allAreas")
+		.filter(function(d) { return choices.includes(continents[d.key])})
+		//.filter(function(d) { return continents[d.key] == "North America"})
 		.attr("class", "area")
 		.attr("d", area)
 		.attr("fill", function(d, i) {
@@ -164,7 +187,7 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 		.on('mouseover', function(d){
 			activeCountry = d.key;
 			//console.log(activeCountry);
-			// highlight Area 
+			// highlight Area
 			d3.select(this).classed("areaLight", true);
 
 			// Make tooltip appear
@@ -189,12 +212,13 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 		.on('mouseout', function(d){
 			d3.select(this).classed("areaLight", false);
 			tooltipA.classed("hidden", true);
-			
+
 			// turn back the map
 			d3.selectAll(".country-on")
-				.attr("class", "country");	
+				.attr("class", "country");
 		}) // Finish .on mouseout
 		;
+		};
 
 	//Create axes
 	areaChart.append("g")
@@ -212,7 +236,7 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 	.append("line")
 	.attr("id", "vertical")
 	.classed("hidden", true)
-	.attr("x1", xScaleA(yearMax) + 1) 
+	.attr("x1", xScaleA(yearMax) + 1)
 	.attr("y1", p)
 	.attr("x2", xScaleA(yearMax) + 1)
 	.attr("y2", h - p)
@@ -221,7 +245,7 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 	.style("fill", "none");
 
 	areaChart
-		.on("mousemove", function(){  
+		.on("mousemove", function(){
 	   		mousex = d3.mouse(this);
 			mousex = mousex[0] + 5;
 			vertical
@@ -229,7 +253,7 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 				.attr("x1", mousex)
 			   	.attr("x2", mousex)
 		})
-		.on("mouseover", function(){  
+		.on("mouseover", function(){
 			mousex = d3.mouse(this);
 			mousex = mousex[0] + 5;
 		 	vertical.attr("x1", mousex)
@@ -237,6 +261,6 @@ d3.csv("data/Uni_data.csv", rowConverter, function(data) {
 		.on("mouseout", function(){
 			vertical.classed("hidden", true)
 		});
-		
+
 // Finally...
 });

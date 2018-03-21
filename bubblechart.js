@@ -19,6 +19,7 @@ var yValue = function(d) { return d.religpct;}, // data -> value
                 .ticks(10);
 
 
+
 // add the graph canvas to the body of the webpage
 var bubbles = d3.select("#bubbleChart").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -31,7 +32,7 @@ var tooltipC = d3.select("#bubbleChart")
       .attr("class", "tooltip")
     	.style("position", "absolute")
     	.style("z-index", "10")
-      .style("top", 1.1 * h + $("#map-holder").height() + "px")
+      .style("top", 1.1 * height + $("#map-holder").height() + "px")
       .style("left", "53  %")
     	.style("visibility", "hidden");
 
@@ -95,12 +96,27 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
 
   // draw dots
 
+  // filter for continent
+  d3.selectAll(".contCheckbox").on("change.bu",update);
+  update();
+
+  function update(){
+    var choices = [];
+    d3.selectAll(".contCheckbox").each(function(d){
+      cb = d3.select(this);
+      if(cb.property("checked")){
+        choices.push(cb.property("value"))
+        console.log(choices);
+      }
+    });
+
+  bubbles.selectAll("#bubblecircle").remove()
 
   bubbles.selectAll("bubbles")
       .data(data)
-    .enter().append("circle")
+      .enter().append("circle")
       .attr("id", "bubblecircle")
-    //  .filter(function(d) { return d.country == activeCountry })
+      .filter(function(d) { return choices.includes(d.continent) })
       .attr("class", "bubbles")
       .attr("d", bubbles)
       .attr("cx", xMap)
@@ -151,4 +167,6 @@ d3.csv("./data/rel_uni_pop_hpi.csv", function(error, data) {
         d3.selectAll(".country-on")
           .attr("class", "country");
       });
+
+  }
 });

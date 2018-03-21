@@ -1,4 +1,4 @@
-		
+
 		// DEFINE VARIABLES
 		// Define size of map group
 		// Full world map is 2:1 ratio
@@ -8,13 +8,68 @@
 		var time=2018;
 		var minZoom;
 		var maxZoom;
-		
+		var geojson;
+		d3.json("./data/custom.geo.json", function(d){
+			geojson = d;
+		});
+
+		var return_pop = function(iso3_code){
+			for (var i = 0; i < geojson.features.length; i++){
+				if (geojson.features[i].properties.iso_a3 === iso3_code){
+					return geojson.features[i].properties.pop_est;
+				}
+			}
+		};
+
+		var norm_pidscience = {},
+			norm_pidreligion = {},
+			norm_piddiff = {};
+		var colorBoth;
+		var colorReligion;
+		var colorScience;
+		var continents = {};
+		var temp;
+
+		// COLOR
+		// colors are the most important things....
+var colorAsOc = "#2b83ba",
+	colorEurope = "#d7191c",
+	colorNAmerica = "#4daf4a",
+	colorSAmerica = "#d95f0e",
+	colorAfrica = "#756bb1";
+
+// Load continent data
+d3.csv("./data/continents_data.csv", function(data){
+for (var i = 0; i < data.length; i++){
+	var row = data[i];
+	continents[row["Country"]] = row["Continent"];
+};
+});
+
+// Function to define colors
+var colorScaleMap = function(d){
+switch(d.properties.continent){
+	case "Asia":
+		return colorAsOc;
+	case "Oceania":
+		return colorAsOc;
+	case "Africa":
+		 return colorAfrica;
+	case "South America":
+		return colorSAmerica;
+	case "North America":
+		return colorNAmerica;
+	case "Europe":
+		return colorEurope;
+}
+};//
+
 		Relig.checked=true
 		Scientech.checked=true
 		active=d3.select(null);
 		d3.select("#year").on("input", function() {
 		 update(+this.value);
-		}); 
+		});
 		d3.select("#Scientech").on("input", function() {
 			updatescienc();
 		});
@@ -22,9 +77,9 @@
 			updaterelig();
 		});
 		// colora scale
-		var colora=d3.scaleLinear().domain([0,15000]).range([0,255]);
-		
-		
+		// var colora=d3.scaleLinear().domain([0,15000]).range([0,255]);
+
+
 		// Define map projection
 		var projection = d3
         .geoEquirectangular()
@@ -32,13 +87,13 @@
         .scale([wi / (2 * Math.PI)]) // scale to fit group width
         .translate([wi / 2, he / 2]) // ensure centred in group
       ;
-	  
+
 	     // Define map path
 		var path = d3
         .geoPath()
         .projection(projection)
       ;
-	
+
 		var svgmap = d3
         .select("#map-holder")
         .append("svg")
@@ -47,12 +102,12 @@
 		.attr("height", $("#map-holder").height())
 // 		.style("border", "1px solid black")
 		;
-		
+
 			countriesaGroup = svgmap
 			   .append("g")
 			   .attr("id", "map")
 				;
-				
+
 			// add a background rectangle
 			countriesaGroup
 			   .append("rect")
@@ -62,8 +117,8 @@
 			   .attr("height", he)
 			   .on("click", reset)
 			;
-		
-	
+
+
 		var tooltipB = d3.select("#map-holder")
 		.append("div")
 		.attr("class", "tooltip")
@@ -190,13 +245,13 @@ bothgradientb.append("svg:stop")
     .attr("stop-color", "rgb(255,255,255)")
     .attr("stop-opacity", 1);
 
-   
+
 svgmap.append('polyline').attr("fill",'url(#bothgradientb)').attr("id","bothlegendb")
     .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
     .style('stroke','black')
 	.style('stroke-width','2px')
 .style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
-*/	
+*/
 svgmap.append('polyline').attr("fill",'url(#bothgradient)').attr("id","bothlegend")
     .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
     .style('stroke','black')
@@ -218,7 +273,7 @@ svgmap.append('text')
 .style('font-size',texsize+'px')
 .style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
 .style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
-.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});	
+.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});
 
 svgmap.append('text')
 .attr('x',0.5*texsize)
@@ -227,7 +282,7 @@ svgmap.append('text')
 .style('font-size',texsize+'px')
 .style('opacity',function(){if((Scientech.checked===true && Relig.checked===false)|| (Relig.checked===true && Scientech.checked===false)){return 1} else {return 0}})
 .style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
-.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});	
+.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});
 
 svgmap.append('text')
 .attr('x',hlegend+xlegend-2*texsize)
@@ -235,7 +290,7 @@ svgmap.append('text')
 .attr('y',ylegend-texsize)
 .style('font-size',texsize+'px')
 .style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}})
-.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Science'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});	
+.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Science'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});
 
 
 		function update(year) {
@@ -250,11 +305,11 @@ svgmap.append('text')
 	    			d3.selectAll("#religiattr")
 					.style("fill",function(d){if (year>=d.birth_year && year<=d.birth_year+100) {return "darkred"} else {return "none"}})
 					.style("stroke",function(d){if (year>=d.birth_year && year<=d.birth_year+100) {return "pink"} else {return "none"}})
-	    		} 
+	    		}
 			d3.selectAll("text")
 			//.style("fill",function(d){if (((year-d.birth_year)<100) && ((year-d.birth_year)>=0)) {return "black"} else {return "none"}})
 			}
-			
+
 		function updatescienc(){
 d3.select('#scilegend').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
 d3.select('#rellegend').style('opacity',function(){if(Scientech.checked===false && Relig.checked===true){return 1} else {return 0}})
@@ -264,7 +319,7 @@ d3.select('#bothlegenda').style('opacity',function(){if(Scientech.checked===true
 d3.select('#legendtext').style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}}).text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});
 d3.select('#upperlegendtext').style('opacity',function(){if((Scientech.checked===true && Relig.checked===false)|| (Relig.checked===true && Scientech.checked===false)){return 1} else {return 0}})
 .style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
-.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});	
+.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});
 d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}})
 
 
@@ -277,10 +332,10 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 		.defer(d3.json, "./data/custom.geo.json")
 		.defer(d3.csv, "./data/updated.csv")
 		.await(ready);
-		
-		function ready(error, json, csvdata) { 
+
+		function ready(error, json, csvdata) {
 		if (error) throw error;
-				
+
 			csvdata.forEach(function(csvdata) {
 				csvdata.latitude = +csvdata.latitude;
 				csvdata.longitude = +csvdata.longitude;
@@ -293,61 +348,89 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 			dfreligion.forEach(function(dfreligion){dfreligion.colora="red"})
 			var dfboth= csvdata.filter(function(d) {if(d.industry==='Religion'||d.domain==='Science & Technology') {return [d.latitude, d.longitude, d.country, d.state, d.birth_year,d.full_name, d.historical_popularity_index]}});
 			var pidx={};
-					
-					
+
+
 			//POPULARITY INDEX PER COUNTRY
 			for (i=0; i<dfboth.length; i++) {
 				if (dfboth[i].state===undefined) {continue}
 				if (pidx[dfboth[i].state]===undefined) {
-							
+
 					pidx[dfboth[i].state]=Number(dfboth[i].historical_popularity_index);
 					}
 				else {
 					pidx[dfboth[i].state]+=Number(dfboth[i].historical_popularity_index);}
-					}
-					
+				}
+
 			var pidxscience={};
-					
-					
+
+
 			//POPULARITY INDEX PER COUNTRY
 			for (i=0; i<dfscience.length; i++) {
 				if (dfscience[i].state===undefined) {continue}
 				if (pidxscience[dfscience[i].state]===undefined) {
-							
+
 					pidxscience[dfboth[i].state]=Number(dfscience[i].historical_popularity_index);
 					}
 				else {
 					pidxscience[dfscience[i].state]+=Number(dfscience[i].historical_popularity_index);}
-					}
-			
+				}
+
+			temp = pidxscience;
 			var pidxreligion={};
-					
-					
+
+
 			//POPULARITY INDEX PER COUNTRY
 			for (i=0; i<dfreligion.length; i++) {
 				if (dfreligion[i].state===undefined) {continue}
 				if (pidxreligion[dfreligion[i].state]===undefined) {
-							
+
 					pidxreligion[dfreligion[i].state]=Number(dfreligion[i].historical_popularity_index);
 					}
 				else {
 					pidxreligion[dfreligion[i].state]+=Number(dfreligion[i].historical_popularity_index);}
 					}
-			
+
 			var pidxboth={}
 			for (i=0; i<dfboth.length; i++) {
 				if (dfboth[i].state===undefined) {continue}
 				if (pidxboth[dfboth[i].state]===undefined) {
-							
+
 					pidxboth[dfboth[i].state]=Number(dfboth[i].historical_popularity_index);
 					}
 				else {
 					pidxboth[dfboth[i].state]+=Number(dfboth[i].historical_popularity_index);}
-					}
+					};
 
-				
+			// Begin Huyen's added part
+			// define datas for normalized HPI....
 
-			
+			for (i = 0; i < d3.keys(pidxscience).length; i++){
+				var country = d3.keys(pidxscience)[i];
+				norm_pidscience[country] = pidxscience[country] / return_pop(country)**0.3;
+			};
+
+			for (i = 0; i < d3.keys(pidxreligion).length; i++){
+				var country = d3.keys(pidxreligion)[i];
+				norm_pidreligion[country] = pidxreligion[country] / return_pop(country)**0.3;
+			};
+
+
+			for (i = 0; i < d3.keys(norm_pidscience).length; i++){
+				var country = d3.keys(norm_pidscience)[i];
+				if (norm_pidreligion[country]){
+					norm_piddiff[country] = norm_pidscience[country] - norm_pidreligion[country];
+				};
+			};
+
+			colorBoth = d3.scaleSequential(d3.interpolateRdBu)
+								.domain([d3.min(d3.values(norm_piddiff)),d3.max(d3.values(norm_piddiff))]);
+			colorScience = d3.scaleSequential(d3.interpolateBlues)
+								.domain([d3.min(d3.values(norm_pidscience)),d3.max(d3.values(norm_pidscience))]);
+			colorReligion = d3.scaleSequential(d3.interpolateReds)
+								.domain([d3.min(d3.values(norm_pidreligion)),d3.max(d3.values(norm_pidreligion))]);
+
+			// End of Huyen's added part...
+
 			// draw a path for each feature/country
 			countriesa = countriesaGroup
 			   .selectAll("path")
@@ -355,36 +438,49 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 			   .enter()
 			   .append("path")
 			   .attr("d", path)
-				.style("stroke-width","3px")
-			   .style("stroke",function(d){if(d.properties.continent==='Europe'){return 'red'} else if (d.properties.continent==='Asia'){return 'blue'} else if (d.properties.continent==='North America'){return 'green'} else if (d.properties.continent==='South America'){return 'orange'} else if (d.properties.continent==='Africa'){return 'lightblue'} else if (d.properties.continent==='Oceania') {return 'purple'} else {return 'white'}})
+				// .style("stroke-width","1px")
+				.style("stroke", "white")
+			//    .style("stroke",function(d){if(d.properties.continent==='Europe'){return 'red'} else if (d.properties.continent==='Asia'){return 'blue'} else if (d.properties.continent==='North America'){return 'green'} else if (d.properties.continent==='South America'){return 'orange'} else if (d.properties.continent==='Africa'){return 'lightblue'} else if (d.properties.continent==='Oceania') {return 'purple'} else {return 'white'}})
 			.style("opacity",0.8)
 			.style("stroke-opacity",0.4)
 			   .attr("id", function(d, i) {
 				  return d.properties.iso_a3;})
 			   .style('fill', function(d) {
-				if (pidxreligion[d.properties.iso_a3]===undefined){
-			    this.r=4000;}
-	    			if (pidxscience[d.properties.iso_a3]===undefined){
-			    this.s=4000;}
-	    			if (pidxboth[d.properties.iso_a3]===undefined){
-			    this.r=4000; this.s=4000;}
-				
-	    if(pidxscience[d.properties.iso_a3]!==undefined){if (Scientech.checked===true){
-	    this.s=pidxscience[d.properties.iso_a3]**(0.35)/(d.properties.pop_est**0.3)*370000;} else {this.s=4000}
-	    			} 
-	    if(pidxreligion[d.properties.iso_a3]!==undefined){if (Relig.checked===true){
-	    this.r=pidxreligion[d.properties.iso_a3]**(0.35)/(d.properties.pop_est**0.3)*370000;
-	    } else{this.r=4000}
-	    			}
-				return "rgb(" + colora(this.r) +","+ colora(0)+", " + colora(this.s) + ")";})
+					// var usedData;
+					// var usedColors;
+					// if (Relig.checked===true){
+					// 	if(Scientech.checked===true){
+					// 		usedData = norm_piddiff;
+					// 		usedColors = colorBoth;
+					// 	} else{
+					// 		usedData = norm_pidscience;
+					// 		usedColors = colorScience;
+					// 	}
+					// } else{
+					// 	usedData = norm_pidreligion;
+					// 	usedColors = colorReligion;
+					// };
+
+					// if (usedData[d.properties.iso_a3]===undefined){
+					// 	return "lightgrey";
+					// } else {
+					// 	console.log(usedColors(usedData[d.properties.iso_a3]));
+					// 	return usedColors(usedData[d.properties.iso_a3]);
+					// };
+					// console.log(d.properties.continent);
+					// console.log(colorScale(d));
+					return colorScaleMap(d);
+
+				})
+
 			   .attr("class", "country")
 				.on("click", clicked)
 				.on('mouseover', function(d){ // mouse over effect -- Huyen
 					activeCountry = d.properties.name;
 					d3.select(this).classed("country-on", true);
-			
-					mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
-		
+
+					mouse = d3.mouse(svgmap.node()).map( function(d) { return parseInt(d); } );
+
 					// Update the stacked area chart
 					d3.selectAll(".area")
 						.classed("areaLight", function(d){
@@ -392,7 +488,7 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 														return true; }
 							else return false;
 						   });
-				
+
 					// Update the sunburst area chart by highlighting the country
 					d3.selectAll(".arc")
 						.classed("arcLight", function(d){
@@ -404,24 +500,24 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 
 				.on("mouseout", function(d){ //mouse out effect -- Huyen
 					d3.select(this).classed("country-on", false);
-		
+
 					// turn back the stacked area map
 					d3.selectAll(".areaLight")
 						.attr("class", "area");
 					// turn back sunburst
 					d3.selectAll(".arcLight")
 					  .attr("class", "arc");
-				
+
 			   }) // end of mouseout
-		
-			
+
+
 			var religipersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfreligion)
 						.enter()
 						.append("circle");
-					
-					
+
+
 			var religiattr = religipersons
 							.attr("id","religiattr")
 							.attr("r", 3)
@@ -437,20 +533,20 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 									mousex = mousex[0];
 									tooltipB.html(  "<p>" + d.occupation + "<br>" + d.full_name + " (" + d.birth_year + ")" + " from " + d.country + "</p>" )
 											  .classed("hidden", false);
-								}) 
+								})
 							//.style("stroke-width","1px");
-			
+
 			.on('mouseout', function(d){
 			d3.select(this).classed("areaLight", false);
 			tooltipB.classed("hidden", true);});
-			
+
 			var sciencepersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfscience)
 						.enter()
 						.append("circle");
-					
-					
+
+
 			var scienceattr = sciencepersons
 							.attr("id","scienceattr")
 							.attr("r", 3)
@@ -477,8 +573,8 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 			.style("stroke","none")
 			}
 			update(d3.select("#year").property("value"))
-		
-	    }	
+
+	    }
 	    }
 		function updaterelig(){
 d3.select('#scilegend').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
@@ -489,7 +585,7 @@ d3.select('#bothlegenda').style('opacity',function(){if(Scientech.checked===true
 d3.select('#legendtext').style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}}).text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});
 d3.select('#upperlegendtext').style('opacity',function(){if((Scientech.checked===true && Relig.checked===false)|| (Relig.checked===true && Scientech.checked===false)){return 1} else {return 0}})
 .style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
-.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});	
+.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});
 d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}})
 
 
@@ -502,11 +598,11 @@ d3.select("#map").remove();
 		.defer(d3.json, "./data/custom.geo.json")
 		.defer(d3.csv, "./data/updated.csv")
 		.await(ready);
-		
-		function ready(error, json, csvdata) { 
+
+		function ready(error, json, csvdata) {
 		if (error) throw error;
 
-				
+
 			csvdata.forEach(function(csvdata) {
 				csvdata.latitude = +csvdata.latitude;
 				csvdata.longitude = +csvdata.longitude;
@@ -520,58 +616,89 @@ d3.select("#map").remove();
 			dfreligion.forEach(function(dfreligion){dfreligion.colora="red"})
 			var dfboth= csvdata.filter(function(d) {if(d.industry==='Religion'||d.domain==='Science & Technology') {return [d.latitude, d.longitude, d.country, d.state, d.birth_year,d.full_name, d.historical_popularity_index]}});
 			var pidx={};
-					
-					
+
+			// temp = dfscience
+
+
 			//POPULARITY INDEX PER COUNTRY
 			for (i=0; i<df.length; i++) {
 				if (df[i].state===undefined) {continue}
 				if (pidx[df[i].state]===undefined) {
-							
+
 					pidx[df[i].state]=Number(df[i].historical_popularity_index);
 					}
 				else {
 					pidx[df[i].state]+=Number(df[i].historical_popularity_index);}
 					}
-					
+
 			var pidxscience={};
-					
-					
+
+
 			//POPULARITY INDEX PER COUNTRY
 			for (i=0; i<dfscience.length; i++) {
 				if (dfscience[i].state===undefined) {continue}
 				if (pidxscience[dfscience[i].state]===undefined) {
-							
+
 					pidxscience[df[i].state]=Number(dfscience[i].historical_popularity_index);
 					}
 				else {
 					pidxscience[dfscience[i].state]+=Number(dfscience[i].historical_popularity_index);}
 					}
-			
+
 			var pidxreligion={};
-					
-					
+
+
 			//POPULARITY INDEX PER COUNTRY
 			for (i=0; i<dfreligion.length; i++) {
 				if (dfreligion[i].state===undefined) {continue}
 				if (pidxreligion[dfreligion[i].state]===undefined) {
-							
+
 					pidxreligion[dfreligion[i].state]=Number(dfreligion[i].historical_popularity_index);
 					}
 				else {
 					pidxreligion[dfreligion[i].state]+=Number(dfreligion[i].historical_popularity_index);}
 					}
-			
+
 			var pidxboth={}
 			for (i=0; i<dfboth.length; i++) {
 				if (dfboth[i].state===undefined) {continue}
 				if (pidxboth[dfboth[i].state]===undefined) {
-							
+
 					pidxboth[dfboth[i].state]=Number(dfboth[i].historical_popularity_index);
 					}
 				else {
 					pidxboth[dfboth[i].state]+=Number(dfboth[i].historical_popularity_index);}
 					}
 
+			// Begin Huyen's added part
+			// define datas for normalized HPI....
+
+			for (i = 0; i < d3.keys(pidxscience).length; i++){
+				var country = d3.keys(pidxscience)[i];
+				norm_pidscience[country] = pidxscience[country] / return_pop(country)**0.5;
+			};
+
+			for (i = 0; i < d3.keys(pidxreligion).length; i++){
+				var country = d3.keys(pidxreligion)[i];
+				norm_pidreligion[country] = pidxreligion[country] / return_pop(country)**0.5;
+			};
+
+
+			for (i = 0; i < d3.keys(norm_pidscience).length; i++){
+				var country = d3.keys(norm_pidscience)[i];
+				if (norm_pidreligion[country]){
+					norm_piddiff[country] = norm_pidscience[country] - norm_pidreligion[country];
+				};
+			};
+
+			colorBoth = d3.scaleSequential(d3.interpolateRdBu)
+								.domain([d3.min(d3.values(norm_piddiff)),d3.max(d3.values(norm_piddiff))]);
+			colorScience = d3.scaleSequential(d3.interpolateBlues)
+								.domain([d3.min(d3.values(norm_pidscience)),d3.max(d3.values(norm_pidscience))]);
+			colorReligion = d3.scaleSequential(d3.interpolateReds)
+								.domain([d3.min(d3.values(norm_pidreligion)),d3.max(d3.values(norm_pidreligion))]);
+
+			// End of Huyen's added part...
 
 			// draw a path for each feature/country
 			countriesa = countriesaGroup
@@ -580,38 +707,26 @@ d3.select("#map").remove();
 			   .enter()
 			   .append("path")
 			   .attr("d", path)
-				.style("stroke-width","3px")
-			   .style("stroke",function(d){if(d.properties.continent==='Europe'){return 'red'} else if (d.properties.continent==='Asia'){return 'blue'} else if (d.properties.continent==='North America'){return 'green'} else if (d.properties.continent==='South America'){return 'orange'} else if (d.properties.continent==='Africa'){return 'lightblue'} else{return 'purple'}})
-			.style("opacity",0.8)
-			.style("stroke-opacity",0.4)
+				// .style("stroke-width","1px")
+				.style("stroke","white")
+			//    .style("stroke",function(d){if(d.properties.continent==='Europe'){return 'red'} else if (d.properties.continent==='Asia'){return 'blue'} else if (d.properties.continent==='North America'){return 'green'} else if (d.properties.continent==='South America'){return 'orange'} else if (d.properties.continent==='Africa'){return 'lightblue'} else{return 'purple'}})
+				.style("opacity",0.8)
+				.style("stroke-opacity",0.4)
 			   .attr("id", function(d, i) {
 				  return d.properties.iso_a3;})
-			   .style('fill', function(d) {
-				if (pidxreligion[d.properties.iso_a3]===undefined){
-			    this.r=4000;}
-	    			if (pidxscience[d.properties.iso_a3]===undefined){
-			    this.s=4000;}
-	    			if (pidxboth[d.properties.iso_a3]===undefined){
-			    this.r=4000; this.s=4000;}
-				
-	    if(pidxscience[d.properties.iso_a3]!==undefined){if (Scientech.checked===true){
-	    this.s=pidxscience[d.properties.iso_a3]**(0.35)/(d.properties.pop_est**0.3)*370000;} else {this.s=4000}
-	    			} 
-	    if(pidxreligion[d.properties.iso_a3]!==undefined){if (Relig.checked===true){
-	    this.r=pidxreligion[d.properties.iso_a3]**(0.35)/(d.properties.pop_est**0.3)*370000;
-	    } else{this.r=4000}
-	    			}
-				return "rgb(" + colora(this.r) +","+ colora(0)+", " + colora(this.s) + ")";})
+				  .style('fill', function(d) {
+					colorScaleMap(d);
+				})
 			   .attr("class", "country")
 				.on("click", clicked)
-			
+
 			var religipersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfreligion)
 						.enter()
 						.append("circle");
-					
-					
+
+
 			var religiattr = religipersons
 							.attr("id","religiattr")
 							.attr("r", 3)
@@ -621,15 +736,15 @@ d3.select("#map").remove();
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Relig.checked===true) {return "pink"} else {return "none"}})
 							.style("stroke-width","1px")
-.on('click',function(d){alert(d.full_name)});
+//.on('click',function(d){alert(d.full_name)});
 
 			var sciencepersons = countriesaGroup
 						.selectAll("circle")
 						.data(dfscience)
 						.enter()
 						.append("circle");
-					
-					
+
+
 			var scienceattr = sciencepersons
 							.attr("id","scienceattr")
 							.attr("r", 3)
@@ -638,23 +753,23 @@ d3.select("#map").remove();
 							//.style("opacity",0.6)
 							.style("stroke",function(d){if (time>=d.birth_year && time<=d.birth_year+100 && Scientech.checked===true) {return "skyblue"} else {return "none"}})
 							.style("stroke-width","1px")
-.on('click',function(d){alert(d.full_name)});
+//.on('click',function(d){alert(d.full_name)});
 
 			if (Relig.checked===false){
 			d3.selectAll('#religiattr')
 			.style("fill","none")
 			.style("stroke","none")
-				} 
+				}
 	    		update(d3.select("#year").property("value"))
-			
-			
+
+
 	    }				}
-	    
-		function clicked(d) { 
+
+		function clicked(d) {
 			if(active.node()===this) return reset();
 			active.classed("active", false);
 			active = d3.select(this).classed("active", true);
-			
+
 			  var bounds = path.bounds(d),
 			dx = bounds[1][0] - bounds[0][0],
 			dy = bounds[1][1] - bounds[0][1],
@@ -662,27 +777,26 @@ d3.select("#map").remove();
 			y = (bounds[0][1] + bounds[1][1]) / 2,
 			scale = .9 / Math.max(dx / wi, dy / he),
 			translate = [wi / 2 - scale * x, he / 2 - scale * y];
-			
-			
+
+
 			  countriesaGroup.transition()
 			.duration(750)
 			.style("stroke-width", 1.5 / scale + "px")
 			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-		
+
 	}
-	
-		
+
+
 		function reset() {
 		active.classed("active", false);
 		active = d3.select(null);
-		
+
 		countriesaGroup.transition()
 		.duration(750)
 		.style("stroke-width", "1.5px")
 		.attr("transform", "");
 }
-			
+
 			update(time);
 updatescienc();
 updaterelig();
-

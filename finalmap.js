@@ -32,11 +32,14 @@
 
 		// COLOR
 		// colors are the most important things....
-var colorAsOc = "#2b83ba",
+var colorAsia = "#2b83ba",
+	colorOc = "#c51b8a",
 	colorEurope = "#d7191c",
 	colorNAmerica = "#4daf4a",
 	colorSAmerica = "#d95f0e",
 	colorAfrica = "#756bb1";
+
+var legendCon = ["Asia", "Oceania", "North America", "South America", "Africa"];
 
 // Load continent data
 d3.csv("./data/continents_data.csv", function(data){
@@ -50,9 +53,9 @@ for (var i = 0; i < data.length; i++){
 var colorScaleMap = function(d){
 switch(d.properties.continent){
 	case "Asia":
-		return colorAsOc;
+		return colorAsia;
 	case "Oceania":
-		return colorAsOc;
+		return colorOc;
 	case "Africa":
 		 return colorAfrica;
 	case "South America":
@@ -129,168 +132,172 @@ switch(d.properties.continent){
 		.style("left", "76%");
 
 
-svgmap.append("rect")
-.attr("x", 0).attr("y", 0)
-.attr("width", wi).attr("height", he)
-.style("fill", "url(#legendGradientMulti)");
-var ylegend = he*1/2
-var xlegend = wi*40/2000
-var hlegend = he*1/4
-
-var scigradient = svgmap.append("svg:defs")
-    .append("svg:linearGradient")
-    .attr("id", "scigradient")
-    .attr("x1", "100%")
-    .attr("y1", "100%")
-    .attr("x2", "100%")
-    .attr("y2", "0%")
-    .attr("spreadMethod", "pad");
-
-// Define the gradient colors
-scigradient.append("svg:stop")
-    .attr("offset", "0%")
-    .attr("stop-color", "rgb(68,0,0)")
-    .attr("stop-opacity", 1);
-
-scigradient.append("svg:stop")
-    .attr("offset", "100%")
-    .attr("stop-color", "rgb(68,0,255)")
-    .attr("stop-opacity", 1);
-
-var scilegend = svgmap.append('rect').attr('id','scilegend')
-var scilegendattr = scilegend.attr('x',0.5*hlegend+xlegend-0.1*hlegend).attr('y',ylegend).attr('height',hlegend).attr('width',0.2*hlegend).style('fill','url(#scigradient)').style('stroke','black').style('stroke-width','2px').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
-
-var relgradient = svgmap.append("svg:defs")
-    .append("svg:linearGradient")
-    .attr("id", "relgradient")
-    .attr("x1", "100%")
-    .attr("y1", "100%")
-    .attr("x2", "100%")
-    .attr("y2", "0%")
-    .attr("spreadMethod", "pad");
-
-// Define the gradient colors
-relgradient.append("svg:stop")
-    .attr("offset", "0%")
-    .attr("stop-color", "rgb(0,0,68)")
-    .attr("stop-opacity", 1);
-
-relgradient.append("svg:stop")
-    .attr("offset", "100%")
-    .attr("stop-color", "rgb(255,0,68)")
-    .attr("stop-opacity", 1);
-
-var rellegend = svgmap.append('rect').attr('id','rellegend')
-var rellegendattr = rellegend.attr('x',0.5*hlegend+xlegend-0.1*hlegend).attr('y',ylegend).attr('height',hlegend).attr('width',0.2*hlegend).style('fill','url(#relgradient)').style('stroke','black').style('stroke-width','2px').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
-
-var bothgradient = svgmap.append("svg:defs")
-    .append("svg:linearGradient")
-    .attr("id", "bothgradient")
-    .attr("x1", "100%")
-    .attr("y1", "100%")
-    .attr("x2", "0%")
-    .attr("y2", "0%")
-    .attr("spreadMethod", "pad");
-/*
-var bothgradientb = svgmap.append("svg:defs")
-    .append("svg:linearGradient")
-    .attr("id", "bothgradientb")
-    .attr("x1", "100%")
-    .attr("y1", "100%")
-    .attr("x3", "0%")
-    .attr("y2", "0%")
-    .attr("spreadMethod", "pad");
-*/
-
-var bothgradienta = svgmap.append("svg:defs")
-    .append("svg:linearGradient")
-    .attr("id", "bothgradienta")
-    .attr("x2", "100%")
-    .attr("y1", "100%")
-    .attr("x1", "0%")
-    .attr("y2", "0%")
-    .attr("spreadMethod", "pad");
-
-// Define the gradient colors
-bothgradient.append("svg:stop")
-    .attr("offset", "50%")
-    .attr("stop-color", "rgb(0,0,68)")
-    .attr("stop-opacity", 1);
+	var ylegend = he*1/2;
+	var xlegend = wi*40/2000;
+	var hlegend = he*1/4;
 
 
-bothgradient.append("svg:stop")
-    .attr("offset", "75%")
-    .attr("stop-color", "rgb(255,0,68)")
-    .attr("stop-opacity", 1);
+	var legendArea = svgmap.append("svg:svg")
+			.attr("id", "legend")
+			.attr("width", wi/8)
+			.attr("height", he/3)
+			.attr("x", wi/20)
+			.attr("y", he * 0.4);
 
-bothgradienta.append("svg:stop")
-    .attr("offset", "50%")
-    .attr("stop-color", "rgb(68,0,0)")
-    .attr("stop-opacity", 1);
+// var scigradient = svgmap.append("svg:defs")
+//     .append("svg:linearGradient")
+//     .attr("id", "scigradient")
+//     .attr("x1", "100%")
+//     .attr("y1", "100%")
+//     .attr("x2", "100%")
+//     .attr("y2", "0%")
+//     .attr("spreadMethod", "pad");
+
+// // Define the gradient colors
+// scigradient.append("svg:stop")
+//     .attr("offset", "0%")
+//     .attr("stop-color", "rgb(68,0,0)")
+//     .attr("stop-opacity", 1);
+
+// scigradient.append("svg:stop")
+//     .attr("offset", "100%")
+//     .attr("stop-color", "rgb(68,0,255)")
+//     .attr("stop-opacity", 1);
+
+// var scilegend = svgmap.append('rect').attr('id','scilegend')
+// var scilegendattr = scilegend.attr('x',0.5*hlegend+xlegend-0.1*hlegend).attr('y',ylegend).attr('height',hlegend).attr('width',0.2*hlegend).style('fill','url(#scigradient)').style('stroke','black').style('stroke-width','2px').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
+
+// var relgradient = svgmap.append("svg:defs")
+//     .append("svg:linearGradient")
+//     .attr("id", "relgradient")
+//     .attr("x1", "100%")
+//     .attr("y1", "100%")
+//     .attr("x2", "100%")
+//     .attr("y2", "0%")
+//     .attr("spreadMethod", "pad");
+
+// // Define the gradient colors
+// relgradient.append("svg:stop")
+//     .attr("offset", "0%")
+//     .attr("stop-color", "rgb(0,0,68)")
+//     .attr("stop-opacity", 1);
+
+// relgradient.append("svg:stop")
+//     .attr("offset", "100%")
+//     .attr("stop-color", "rgb(255,0,68)")
+//     .attr("stop-opacity", 1);
+
+// var rellegend = svgmap.append('rect').attr('id','rellegend')
+// var rellegendattr = rellegend.attr('x',0.5*hlegend+xlegend-0.1*hlegend).attr('y',ylegend).attr('height',hlegend).attr('width',0.2*hlegend).style('fill','url(#relgradient)').style('stroke','black').style('stroke-width','2px').style('opacity',function(){if(Scientech.checked===true && Relig.checked===false){return 1} else {return 0}})
+
+// var bothgradient = svgmap.append("svg:defs")
+//     .append("svg:linearGradient")
+//     .attr("id", "bothgradient")
+//     .attr("x1", "100%")
+//     .attr("y1", "100%")
+//     .attr("x2", "0%")
+//     .attr("y2", "0%")
+//     .attr("spreadMethod", "pad");
+// /*
+// var bothgradientb = svgmap.append("svg:defs")
+//     .append("svg:linearGradient")
+//     .attr("id", "bothgradientb")
+//     .attr("x1", "100%")
+//     .attr("y1", "100%")
+//     .attr("x3", "0%")
+//     .attr("y2", "0%")
+//     .attr("spreadMethod", "pad");
+// */
+
+// var bothgradienta = svgmap.append("svg:defs")
+//     .append("svg:linearGradient")
+//     .attr("id", "bothgradienta")
+//     .attr("x2", "100%")
+//     .attr("y1", "100%")
+//     .attr("x1", "0%")
+//     .attr("y2", "0%")
+//     .attr("spreadMethod", "pad");
+
+// // Define the gradient colors
+// bothgradient.append("svg:stop")
+//     .attr("offset", "50%")
+//     .attr("stop-color", "rgb(0,0,68)")
+//     .attr("stop-opacity", 1);
 
 
-bothgradienta.append("svg:stop")
-    .attr("offset", "75%")
-    .attr("stop-color", "rgb(68,0,255)")
-    .attr("stop-opacity", 1);
-/*
- bothgradientb.append("svg:stop")
-    .attr("offset", "0%")
-    .attr("stop-color", "rgb(68,0,68)")
-    .attr("stop-opacity", 1);
+// bothgradient.append("svg:stop")
+//     .attr("offset", "75%")
+//     .attr("stop-color", "rgb(255,0,68)")
+//     .attr("stop-opacity", 1);
+
+// bothgradienta.append("svg:stop")
+//     .attr("offset", "50%")
+//     .attr("stop-color", "rgb(68,0,0)")
+//     .attr("stop-opacity", 1);
 
 
-bothgradientb.append("svg:stop")
-    .attr("offset", "110%")
-    .attr("stop-color", "rgb(255,255,255)")
-    .attr("stop-opacity", 1);
+// bothgradienta.append("svg:stop")
+//     .attr("offset", "75%")
+//     .attr("stop-color", "rgb(68,0,255)")
+//     .attr("stop-opacity", 1);
+// /*
+//  bothgradientb.append("svg:stop")
+//     .attr("offset", "0%")
+//     .attr("stop-color", "rgb(68,0,68)")
+//     .attr("stop-opacity", 1);
 
 
-svgmap.append('polyline').attr("fill",'url(#bothgradientb)').attr("id","bothlegendb")
-    .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
-    .style('stroke','black')
-	.style('stroke-width','2px')
-.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
-*/
-svgmap.append('polyline').attr("fill",'url(#bothgradient)').attr("id","bothlegend")
-    .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
-    .style('stroke','black')
-	.style('stroke-width','2px')
-.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.3} else {return 0}});
+// bothgradientb.append("svg:stop")
+//     .attr("offset", "110%")
+//     .attr("stop-color", "rgb(255,255,255)")
+//     .attr("stop-opacity", 1);
 
-svgmap.append('polyline').attr("fill",'url(#bothgradienta)').attr("id","bothlegenda")
-    .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
-    .style('stroke','black')
-	.style('stroke-width','2px')
-.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.3} else {return 0}});
 
-texsize = wi/2000*30
+// svgmap.append('polyline').attr("fill",'url(#bothgradientb)').attr("id","bothlegendb")
+//     .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
+//     .style('stroke','black')
+// 	.style('stroke-width','2px')
+// .style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}});
+// */
+// svgmap.append('polyline').attr("fill",'url(#bothgradient)').attr("id","bothlegend")
+//     .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
+//     .style('stroke','black')
+// 	.style('stroke-width','2px')
+// .style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.3} else {return 0}});
 
-svgmap.append('text')
-.attr('x',xlegend*1.1)
-.attr('id','legendtext')
-.attr('y',1.5*ylegend+texsize)
-.style('font-size',texsize+'px')
-.style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
-.style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
-.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});
+// svgmap.append('polyline').attr("fill",'url(#bothgradienta)').attr("id","bothlegenda")
+//     .attr('points', xlegend+", "+ylegend+" "+(hlegend+xlegend)+", "+ylegend+" "+(0.5*hlegend+xlegend)+", "+(hlegend+ylegend))
+//     .style('stroke','black')
+// 	.style('stroke-width','2px')
+// .style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 0.3} else {return 0}});
 
-svgmap.append('text')
-.attr('x',0.5*texsize)
-.attr('id','upperlegendtext')
-.attr('y',ylegend-texsize)
-.style('font-size',texsize+'px')
-.style('opacity',function(){if((Scientech.checked===true && Relig.checked===false)|| (Relig.checked===true && Scientech.checked===false)){return 1} else {return 0}})
-.style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
-.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});
+// texsize = wi/2000*30
 
-svgmap.append('text')
-.attr('x',hlegend+xlegend-2*texsize)
-.attr('id','upperrightlegendtext')
-.attr('y',ylegend-texsize)
-.style('font-size',texsize+'px')
-.style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}})
-.text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Science'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});
+// svgmap.append('text')
+// .attr('x',xlegend*1.1)
+// .attr('id','legendtext')
+// .attr('y',1.5*ylegend+texsize)
+// .style('font-size',texsize+'px')
+// .style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
+// .style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
+// .text(function(){if(Scientech.checked===true && Relig.checked===true){return 'No famous scientific/religious persons'}else if(Scientech.checked===true && Relig.checked===false){return 'No famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'No famous religious persons'}else{return '-'}});
+
+// svgmap.append('text')
+// .attr('x',0.5*texsize)
+// .attr('id','upperlegendtext')
+// .attr('y',ylegend-texsize)
+// .style('font-size',texsize+'px')
+// .style('opacity',function(){if((Scientech.checked===true && Relig.checked===false)|| (Relig.checked===true && Scientech.checked===false)){return 1} else {return 0}})
+// .style('opacity',function(){if(Scientech.checked===true || Relig.checked===true){return 1} else {return 0}})
+// .text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Religion'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});
+
+// svgmap.append('text')
+// .attr('x',hlegend+xlegend-2*texsize)
+// .attr('id','upperrightlegendtext')
+// .attr('y',ylegend-texsize)
+// .style('font-size',texsize+'px')
+// .style('opacity',function(){if(Scientech.checked===true && Relig.checked===true){return 1} else {return 0}})
+// .text(function(){if(Scientech.checked===true && Relig.checked===true){return 'Science'}else if(Scientech.checked===true && Relig.checked===false){return 'Most famous scientific persons'}else if(Scientech.checked===false && Relig.checked===true){return 'Most famous religious persons'}else{return '-'}});
 
 
 		function update(year) {
@@ -489,13 +496,23 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 							else return false;
 						   });
 
-					// Update the sunburst area chart by highlighting the country
-					d3.selectAll(".arc")
-						.classed("arcLight", function(d){
-									 if(d.data.name == activeCountry) {//console.log(d.data.name);
-														 return true; }
-									 else return false;
-										});
+					// // Update the sunburst area chart by highlighting the country
+					// d3.selectAll(".arc")
+					// 	.classed("blur", function(d){
+					// 		var sequenceArray = d.ancestors();
+					// 		var listAnscestors= [];
+
+					// 		for (var i = 0; i < sequenceArray.length; i++){
+					// 			listAnscestors.push(sequenceArray[i].data.name);
+					// 		};
+					// 		// console.log(sequenceArray);
+					// 		if(listAnscestors.includes(activeCountry)){
+					// 			console.log(listAnscestors);
+					// 			return false;
+					// 		} else return true;
+					// 	})
+
+					
 				})//end of mouseover
 
 				.on("mouseout", function(d){ //mouse out effect -- Huyen
@@ -505,8 +522,8 @@ d3.select('#upperrightlegendtext').style('opacity',function(){if(Scientech.check
 					d3.selectAll(".areaLight")
 						.attr("class", "area");
 					// turn back sunburst
-					d3.selectAll(".arcLight")
-					  .attr("class", "arc");
+					// d3.selectAll(".arc")
+					// 	.classed("blur", false);
 
 			   }) // end of mouseout
 

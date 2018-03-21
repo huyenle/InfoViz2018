@@ -32,12 +32,25 @@
        <input type="range" min="-3500" max="2018" id="year" width="800px" >
 
 <div class="row">
-    <div id="sunburst">
-	    <div class= "box white"></div>
-      <script type="text/javascript" src="sunburst.js"></script>
+  <div id="sunburst">
+    <div class= "box white"></div>
+    <div id="chart">
+      <div id="explanation" style="visibility: hidden;">
+        <span id="percentage"></span><br/>
+        of historical popular people in each continent and country
+      </div>
+    </div>
+  </div>
+  <!-- <div id="sidebar">
+    <input type="checkbox" id="togglelegend"> Legend<br/>
+    <div id="legend" style="visibility: hidden;"></div>
+  </div> -->
+  <script type="text/javascript" src="sequence_sunburst.js"></script>
     </div>
     <div id="map-holder" >
+         
       <script type="text/javascript" src = "finalmap.js"></script>
+      <!-- <div id="Maplegend" style="visibility: hidden;"></div> -->
     </div>
 </div>
 

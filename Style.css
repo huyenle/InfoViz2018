@@ -60,6 +60,7 @@ body {
 
   #sequence text, #legend text {
     font-weight: 600;
+    font-size: 9px;
     fill: #fff;
   }
 
@@ -183,8 +184,8 @@ body {
     opacity: 1.0;
   }
 
-  .arc {
-      opacity: 0.2;
+  .blur {
+      opacity: 0.3;
   }
 
 .arcLight {

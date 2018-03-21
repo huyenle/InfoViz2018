@@ -123,6 +123,14 @@ body {
       text-align:center;
   }
 
+  #checkboxCont{
+      width: 80%;
+      height: 30px;
+      float: middle;
+      margin: 0px;
+      text-align:right;
+  }
+
   .country{
       opacity: 0.5;
     /*fill: #d0d0d0;   /* country colour */

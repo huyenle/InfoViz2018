@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+		<title>Interactive Map</title>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Yanone+Kaffeesatz:200" rel="stylesheet">
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+		<link rel="stylesheet" type="text/css" href="Style.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<div class="row">
+
+        <label for="title" style="background-color:MediumSeaGreen; font-size:30px; color:black; font-family: Arial, Helvetica, sans-serif;">
+        Public Interests and Development of Science Vs. Religion</font></label>
+
+        <label for="year"
+         style="float:center; background-color:coral; font-size:20px; text-align:right; text-decoration: underline; color:black">
+         Year: <span id="year-value">...</span>
+        </label>
+
+        <label for="Science & Technology" style="background-color:white; font-size:10px; text-align:center; color:black">Science & Technology</font></label>
+        <input type="checkbox" id="Scientech">
+        <label for="Religion" style="background-color:white; font-size:10px; text-align:center; color:black">Religion</font></label>
+        <input type="checkbox" id="Relig" width="130px">
+
+        <div class = "line">
+          <div class = "checkbox_continent" style="background-color:yellow">
+          <label for="Asia" style="width:60px; font-size:10px; text-align:right; color:black">Asia</font></label>
+          <input type="checkbox" class="contCheckbox" value="Asia">
+          <label for="Oceania" style="width:60px; font-size:10px; text-align:right; color:black">Oceania</font></label>
+          <input type="checkbox" class="contCheckbox" value="Oceania">
+          <label for="Europe" style="width:60px; font-size:10px; text-align:right; color:black">Europe</font></label>
+          <input type="checkbox" class="contCheckbox" value="Europe">
+          <label for="North America" style="width:80px; font-size:10px; text-align:right; color:black">North America</font></label>
+          <input type="checkbox" class="contCheckbox" value="North America">
+          <label for="South America" style="width:80px; font-size:10px; text-align:right; color:black">South America</font></label>
+          <input type="checkbox" class="contCheckbox" value="South America">
+          <label for="Africa" style="width:60px; font-size:10px; text-align:right; color:black">Africa</font></label>
+          <input type="checkbox" class="contCheckbox" value="Africa">
+          </div>
+        </div>
+
+        <input type="range" min="1500" max="2018" id="year" width="800px" >
+    </div>
+
+<div class="row">
+    <div id="sunburst">
+      <div class= "box white"></div>
+      <div id="chart" style="font-size:12px; font-weight:300; font-family:Helvetica;">
+        <label for="sunburst" style="font-size:15px; background-color:lightblue; color:Black;">Number of Popular Historical Figures</font></label>
+        <div id="explanation" style="visibility: hidden; font-size:30px;">
+          <span id="percentage" style="font-size:10px; font-family:Helvetica;"></span><br/>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="sequence_sunburst.js"></script>
+    <div id="map-holder" >
+      <script type="text/javascript" src = "finalmap_final.js"></script>
+      <!-- <div id="legend"> -->
+        <!-- <input type="checkbox" id="togglelegend"> Legend<br/> -->
+        <!-- <div id="legend"></div> -->
+    </div>
+</div>
+
+<div class="row">
+    <div id="stackedArea">
+      <label for="stackedArea" style="font-size:15px; color:Black; background-color:lightblue;"> Cumulative Number of Universities Over Time</label>
+      <script type = "text/javascript" src="stackedArea.js"></script>
+    </div>
+    <div id="bubbleChart">
+    	<label for="bubbleChart" style="font-size:15px; float:center; color:Black; background-color:lightblue;">Percentage of Religious Followers in Country</label>
+    	<script type = "text/javascript" src="bubblechart.js"></script>
+    </div>
+</div>
+
+  </body>
+</html>

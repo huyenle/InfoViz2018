@@ -1,0 +1,216 @@
+
+input[type=range]{
+    /* fix for FF unable to apply focus style bug  */
+    border: 15px solid white;
+
+    /*required for proper track sizing in FF*/
+    width: 500px;
+}
+
+input[type=range]::-moz-range-track {
+    width: $("#map-holder").width();
+    height: 10px;
+    background: #ddd;
+    border: none;
+    border-radius: 7px;
+}
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 60%;
+    background: goldenrod;
+}
+
+hide the outline behind the border
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+input[type=range]:focus::-moz-range-track {
+    background: #ccc;
+}
+
+/* Added style */
+body {
+    /* background-color: grey; */
+    /* font-family: Helvetica; */
+    font-weight: 400;
+    font-size: 12px;
+    padding: 20px;
+  }
+
+  /* #sidebar {
+    float: left;
+    width: 100px;
+  } */
+  #legend {
+    padding: 10px 0 0 3px;
+    /* margin-right:200px; */
+  }
+
+  #sequence {
+    width: 600px;
+    height: 70px;
+  }
+
+  #sequence text, #legend text {
+    font-weight: 400;
+    font-size: 9px;
+    fill: #fff;
+    left: 250px;
+  }
+
+  #chart {
+    position: relative;
+  }
+
+  #chart path {
+    stroke: #fff;
+  }
+
+  #explanation {
+    position: absolute;
+    top: 152px;
+    left: 90px;
+    width: 140px;
+    text-align: center;
+    color: #666;
+    z-index: -1;
+  }
+
+  #percentage {
+    font-size: 2.5em;
+  }
+
+  #map-holder {
+    width: 65%;
+      height: 350px;
+      /* bottom: 0px; */
+      /* top: 0px; */
+      float: center;
+  }
+
+  #map-holder
+  svg rect {
+      margin: 10px;
+    fill: white;   /*map background colour */
+  }
+
+  #stackedArea{
+      width: 50%;
+      height: 250px;
+      margin: 0px;
+      float: left;
+      text-align:center;
+  }
+
+  #checkboxCont{
+      width: 80%;
+      height: 30px;
+      float: middle;
+      margin: 0px;
+      text-align:right;
+   }
+
+  #bubbleChart{
+      width: 50%;
+      height: 250px;
+      float: right;
+      text-align:center;
+      margin: 0px;
+  }
+
+  #sunburst{
+      width: 25%;
+      height: 300px;
+      float: right;
+      margin: 0px;
+      text-align:center;
+  }
+
+  .country{
+      opacity: 0.1;
+    /*fill: #d0d0d0;   /* country colour */
+    /*stroke: white; /* country border colour */
+      stroke-width: 0.1; /* country border width */
+  }
+  .country-on{
+      /*fill: #4B5358;   /* highlight colour for selected country */
+      /* stroke:white;*/
+      stroke-width: 3.0;
+      opacity: 1.0;
+  }
+
+  .countryLabel{
+    display: none;   /* hide all country labels by default */
+  }
+  .countryName{
+    fill: #FFFAFF;   /* country label text colour */
+  }
+  .countryLabelBg{
+    fill: #30BCED;   /* country label background colour */
+  }
+  .feature {
+  fill: #ccc;
+  cursor: pointer;
+  }
+
+  .feature.active {
+  fill: orange;
+  }
+
+  /*styles added for area chart*/
+
+  .hidden {
+    display: none;
+  }
+
+  .blur {
+      opacity: 0.5;
+  }
+
+  .area {
+      /* opacity: 1.0; */
+      stroke-opacity: 0;
+      stroke-width: 0%;
+  }
+
+  .bubbles {
+  opacity: 0.3;
+  }
+
+  .bubblesLight {
+    opacity: 1.0;
+  }
+
+  .arc {
+      opacity: 0.3;
+  }
+
+  .arcLight {
+      opacity: 1.0;
+  }
+
+  .box{
+    	width:30px;
+    	height:50px;
+  }
+
+  .white{
+      background:white;
+  }
+
+  div.tooltip {/*style for tooltip*/
+    color: #222;
+    background: #fff;
+    padding: .5em;
+    text-shadow: #f5f5f5 0 1px 0;
+    border-radius: 2px;
+    box-shadow: 0px 0px 2px 0px #a6a6a6;
+    opacity: 0.9;
+      position: absolute;
+      font-weight: bold;
+  }
